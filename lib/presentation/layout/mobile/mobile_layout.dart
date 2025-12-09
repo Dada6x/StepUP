@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kyc_test/main.dart';
-import 'package:kyc_test/presentation/layout/mobile/mobile_drawer.dart';
-import 'package:kyc_test/presentation/layout/mobile/widgets/mobile_app_bar.dart';
+import 'package:kyc_test/presentation/layout/mobile/drawer.dart';
+import 'package:kyc_test/presentation/layout/mobile/widgets/app_bar.dart';
 import 'package:kyc_test/presentation/pages/home/mobile_home.dart';
 import 'package:kyc_test/presentation/pages/profile/profile_page.dart';
 import 'package:kyc_test/presentation/pages/search/search_page.dart';

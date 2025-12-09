@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kyc_test/veriff_service.dart';
@@ -20,9 +19,7 @@ class _KycPageState extends State<KycPage> {
   @override
   void initState() {
     super.initState();
-    // change to your server IP when testing on a real phone
     _backend = BackendService('http://10.24.6.83:3000');
-    // 10.0.2.2 for Android emulator to reach localhost on your machine
   }
 
   Future<void> _startKyc() async {

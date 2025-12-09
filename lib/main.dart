@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:logger/logger.dart';
 import 'package:kyc_test/core/app/controller/app_controller.dart';
-import 'package:kyc_test/core/constants/splashScreen/splash_screen.dart';
 import 'package:kyc_test/core/constants/themes/app_theme.dart';
 import 'package:kyc_test/core/services/network_service.dart';
-import 'package:kyc_test/presentation/layout/layout_page.dart';
 import 'package:dio/dio.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:local_auth/local_auth.dart';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 //! dependency injection
 final getIt = GetIt.instance;
@@ -30,24 +26,6 @@ var logger = Logger(
 
 bool isMobile(BuildContext context) => context.isPhone;
 bool isDesktop(BuildContext context) => context.isLandscape;
-
-String getPlatform() {
-  if (kIsWeb) {
-    return 'Web';
-  } else if (Platform.isAndroid) {
-    return 'Android';
-  } else if (Platform.isIOS) {
-    return 'iOS';
-  } else if (Platform.isWindows) {
-    return 'Windows';
-  } else if (Platform.isMacOS) {
-    return 'macOS';
-  } else if (Platform.isLinux) {
-    return 'Linux';
-  } else {
-    return 'Unknown';
-  }
-}
 
 Future<void> setupDependencies() async {
   getIt.registerLazySingleton<Dio>(
@@ -94,14 +72,9 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.dark,
           themeMode: app.themeMode.value,
           // home: ObsidianSplashPage(),
-          home: context.isPhone
-              ? const LayoutPage()
-              : const ObsidianSplashPage(),
+          home: MobileLayout(),
         ),
       ),
     );
   }
 }
-
-//TODO
-// bits dojo for the statusbar in windows and not be able to resize to specific amount windows\runner\main.cpp
