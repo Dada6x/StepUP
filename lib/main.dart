@@ -1,9 +1,9 @@
+// main.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:kyc_test/veriff_service.dart';
 import 'package:veriff_flutter/veriff_flutter.dart';
-
-import 'veriff_service.dart';
 
 void main() {
   runApp(const MaterialApp(home: KycPage()));
@@ -18,85 +18,72 @@ class KycPage extends StatefulWidget {
 
 class _KycPageState extends State<KycPage> {
   bool loading = false;
-  String result = "";
+  String result = '';
 
-  late VeriffService _veriff;
+  late BackendService _backend;
 
   @override
   void initState() {
     super.initState();
-
-    // 🔴 Replace these with your real values
-    _veriff = VeriffService(
-      baseUrl: "https://stationapi.veriff.com", // this is what you used in logs
-      apiKey:
-          "026a0790-d8dd-4286-a6a4-bce47559f301", // your key (example from log)
-      masterSecret: "YOUR_MASTER_KEY_HERE",
-    );
+    // change to your server IP when testing on a real phone
+    _backend = BackendService('http://192.168.1.2:3000');
+    // 10.0.2.2 for Android emulator to reach localhost on your machine
   }
 
   Future<void> _startKyc() async {
     debugPrint('▶️ [UI] Start KYC pressed');
     setState(() {
       loading = true;
-      result = "";
+      result = '';
     });
 
     try {
-      const userId = "Yahiea Dada :3 ";
-      debugPrint('👤 [UI] Using vendorData / userId: $userId');
+      const userId = 'Yahiea Dada :3';
 
-      // 1. Create session directly from app
-      final sessionUrl = await _veriff.createSession(userId);
-      debugPrint('🔗 [UI] Received sessionUrl: $sessionUrl');
+      // 1. Ask your backend to create Veriff session
+      final sessionUrl = await _backend.createVeriffSession(userId);
+      debugPrint('🔗 [UI] Backend gave sessionUrl: $sessionUrl');
 
       // 2. Start Veriff SDK
       final config = Configuration(sessionUrl);
       final veriff = Veriff();
 
-      debugPrint('🚀 [UI] Launching Veriff SDK...');
       final sdkResult = await veriff.start(config);
 
-      debugPrint('🎯 [UI] Veriff SDK finished');
-      debugPrint('🎯 [UI] status: ${sdkResult.status}');
-      debugPrint('🎯 [UI] error:  ${sdkResult.error}');
+      debugPrint('🎯 [UI] Veriff SDK status: ${sdkResult.status}');
+      debugPrint('🎯 [UI] Veriff SDK error:  ${sdkResult.error}');
 
       setState(() {
         if (sdkResult.status == Status.done) {
-          result = "✅ Completed! Check Veriff dashboard for details.";
+          result = '✅ Completed! Check Veriff dashboard for details.';
         } else if (sdkResult.status == Status.canceled) {
-          result = "❌ User canceled the verification.";
+          result = '❌ User canceled the verification.';
         } else {
-          result = "⚠️ Error from SDK: ${sdkResult.error}";
+          result = '⚠️ SDK error: ${sdkResult.error}';
         }
       });
     } on PlatformException catch (e) {
-      debugPrint('💥 [UI] PlatformException from Veriff SDK');
-      debugPrint('💥 [UI] code:    ${e.code}');
-      debugPrint('💥 [UI] message: ${e.message}');
-      debugPrint('💥 [UI] details: ${e.details}');
-
+      debugPrint('💥 [UI] PlatformException: ${e.code} - ${e.message}');
       setState(() {
-        result = "PlatformException: ${e.code} - ${e.message}";
+        result = 'PlatformException: ${e.code} - ${e.message}';
       });
     } catch (e, stack) {
-      debugPrint('💥 [UI] Unknown error in _startKyc: $e');
-      debugPrint('💥 [UI] Stack trace: $stack');
+      debugPrint('💥 [UI] Unknown error: $e');
+      debugPrint('💥 [UI] stack: $stack');
       setState(() {
-        result = "Unknown error: $e";
+        result = 'Unknown error: $e';
       });
     } finally {
       setState(() {
         loading = false;
       });
-      debugPrint('⏹ [UI] KYC flow finished (loading=false)');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("KYC Demo")),
+      appBar: AppBar(title: const Text('KYC Demo')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -108,7 +95,7 @@ class _KycPageState extends State<KycPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Veriff KYC Example (No Backend)",
+                        'Veriff KYC with Express backend',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -116,8 +103,8 @@ class _KycPageState extends State<KycPage> {
                       ),
                       const SizedBox(height: 12),
                       const Text(
-                        "Tap the button to create a Veriff session and start the SDK.\n"
-                        "Check your IDE console for detailed logs.",
+                        'This app calls our Express backend, which talks to Veriff.\n'
+                        'No API keys are stored in the Flutter app.',
                       ),
                       const SizedBox(height: 20),
                       if (result.isNotEmpty)
@@ -136,7 +123,7 @@ class _KycPageState extends State<KycPage> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text("Start KYC"),
+                      : const Text('Start KYC'),
                 ),
               ),
             ],
