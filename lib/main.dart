@@ -1,135 +1,107 @@
-// main.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-import 'package:kyc_test/veriff_service.dart';
-import 'package:veriff_flutter/veriff_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
+import 'package:kyc_test/core/app/controller/app_controller.dart';
+import 'package:kyc_test/core/constants/splashScreen/splash_screen.dart';
+import 'package:kyc_test/core/constants/themes/app_theme.dart';
+import 'package:kyc_test/core/services/network_service.dart';
+import 'package:kyc_test/presentation/layout/layout_page.dart';
+import 'package:dio/dio.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:local_auth/local_auth.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-void main() {
-  runApp(const MaterialApp(home: KycPage()));
+//! dependency injection
+final getIt = GetIt.instance;
+
+//! logger
+var logger = Logger(
+  printer: PrettyPrinter(
+    colors: true,
+    methodCount: 0,
+    errorMethodCount: 3,
+    printEmojis: true,
+  ),
+);
+
+bool isMobile(BuildContext context) => context.isPhone;
+bool isDesktop(BuildContext context) => context.isLandscape;
+
+String getPlatform() {
+  if (kIsWeb) {
+    return 'Web';
+  } else if (Platform.isAndroid) {
+    return 'Android';
+  } else if (Platform.isIOS) {
+    return 'iOS';
+  } else if (Platform.isWindows) {
+    return 'Windows';
+  } else if (Platform.isMacOS) {
+    return 'macOS';
+  } else if (Platform.isLinux) {
+    return 'Linux';
+  } else {
+    return 'Unknown';
+  }
 }
 
-class KycPage extends StatefulWidget {
-  const KycPage({super.key});
-
-  @override
-  State<KycPage> createState() => _KycPageState();
+Future<void> setupDependencies() async {
+  getIt.registerLazySingleton<Dio>(
+    () => Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+      ),
+    ),
+  );
+  getIt.registerLazySingleton<Connectivity>(() => Connectivity());
+  getIt.registerLazySingleton<LocalAuthentication>(() => LocalAuthentication());
 }
 
-class _KycPageState extends State<KycPage> {
-  bool loading = false;
-  String result = '';
+AppController get app => Get.find<AppController>();
+//! main Function
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // ! the bits_dojo Package
 
-  late BackendService _backend;
+  //$ App Controller
+  Get.put(AppController(), permanent: true);
+  logger.i("App Controller has been initialized");
+  await setupDependencies();
+  //@ Register NetworkService as a GetX service (bound to whole app)
+  await Get.putAsync<NetworkService>(
+    () async => NetworkService(getIt<Connectivity>()).init(),
+  );
+  runApp(const MyApp());
+}
 
-  @override
-  void initState() {
-    super.initState();
-    // change to your server IP when testing on a real phone
-    _backend = BackendService('http://192.168.1.2:3000');
-    // 10.0.2.2 for Android emulator to reach localhost on your machine
-  }
-
-  Future<void> _startKyc() async {
-    debugPrint('▶️ [UI] Start KYC pressed');
-    setState(() {
-      loading = true;
-      result = '';
-    });
-
-    try {
-      const userId = 'Yahiea Dada :3';
-
-      // 1. Ask your backend to create Veriff session
-      final sessionUrl = await _backend.createVeriffSession(userId);
-      debugPrint('🔗 [UI] Backend gave sessionUrl: $sessionUrl');
-
-      // 2. Start Veriff SDK
-      final config = Configuration(sessionUrl);
-      final veriff = Veriff();
-
-      final sdkResult = await veriff.start(config);
-
-      debugPrint('🎯 [UI] Veriff SDK status: ${sdkResult.status}');
-      debugPrint('🎯 [UI] Veriff SDK error:  ${sdkResult.error}');
-
-      setState(() {
-        if (sdkResult.status == Status.done) {
-          result = '✅ Completed! Check Veriff dashboard for details.';
-        } else if (sdkResult.status == Status.canceled) {
-          result = '❌ User canceled the verification.';
-        } else {
-          result = '⚠️ SDK error: ${sdkResult.error}';
-        }
-      });
-    } on PlatformException catch (e) {
-      debugPrint('💥 [UI] PlatformException: ${e.code} - ${e.message}');
-      setState(() {
-        result = 'PlatformException: ${e.code} - ${e.message}';
-      });
-    } catch (e, stack) {
-      debugPrint('💥 [UI] Unknown error: $e');
-      debugPrint('💥 [UI] stack: $stack');
-      setState(() {
-        result = 'Unknown error: $e';
-      });
-    } finally {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
-
+//! my App
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('KYC Demo')),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Veriff KYC with Express backend',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'This app calls our Express backend, which talks to Veriff.\n'
-                        'No API keys are stored in the Flutter app.',
-                      ),
-                      const SizedBox(height: 20),
-                      if (result.isNotEmpty)
-                        Text(result, style: const TextStyle(fontSize: 16)),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: loading ? null : _startKyc,
-                  child: loading
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Text('Start KYC'),
-                ),
-              ),
-            ],
-          ),
+    return ScreenUtilInit(
+      designSize: const Size(390, 844),
+      builder: (_, __) => Obx(
+        () => GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Investment App',
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: app.themeMode.value,
+          // home: ObsidianSplashPage(),
+          home: context.isPhone
+              ? const LayoutPage()
+              : const ObsidianSplashPage(),
         ),
       ),
     );
   }
 }
+
+//TODO
+// bits dojo for the statusbar in windows and not be able to resize to specific amount windows\runner\main.cpp
