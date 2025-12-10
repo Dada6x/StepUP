@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
+import 'package:kyc_test/presentation/pages/introduction_screens/intro_screen.dart';
 import 'package:logger/logger.dart';
 import 'package:kyc_test/core/app/controller/app_controller.dart';
 import 'package:kyc_test/core/constants/themes/app_theme.dart';
@@ -72,9 +72,10 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.dark,
           themeMode: app.themeMode.value,
           // home: ObsidianSplashPage(),
-          home: MobileLayout(),
+          home: OnBoardingPage(),
         ),
       ),
     );
   }
 }
+
