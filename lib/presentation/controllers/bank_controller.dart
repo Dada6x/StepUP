@@ -6,7 +6,7 @@ class BankController extends GetxController {
   final isLoading = false.obs;
 
   // For demo we keep it static
-  final String userId = "bilal";
+  final String userId = "KYC-TEST-BIG-AMOUNT";
 
   Future<void> startBankFlow() async {
     if (isLoading.value) return;
@@ -16,30 +16,19 @@ class BankController extends GetxController {
       // 1) Create customer
       final ok = await SaltEdgeService.createCustomer(userId);
       if (!ok) {
-        Get.snackbar(
-          "Error",
-          "Failed to create bank customer",
-        );
+        Get.snackbar("Error", "Failed to create bank customer");
         return;
       }
 
       // 2) Create connect session
       final connectUrl = await SaltEdgeService.createConnectSession(userId);
       if (connectUrl == null) {
-        Get.snackbar(
-          "Error",
-          "Failed to get bank connect URL",
-        );
+        Get.snackbar("Error", "Failed to get bank connect URL");
         return;
       }
 
       // 3) Go to WebView
-      Get.to(
-        () => BankConnectWebView(
-          userId: userId,
-          connectUrl: connectUrl,
-        ),
-      );
+      Get.to(() => BankConnectWebView(userId: userId, connectUrl: connectUrl));
     } finally {
       isLoading.value = false;
     }

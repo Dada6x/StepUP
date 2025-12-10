@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kyc_test/presentation/pages/auth/no_enough_balance.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:kyc_test/core/services/saltedge_service.dart';
 import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
@@ -55,13 +56,13 @@ class _BankConnectWebViewState extends State<BankConnectWebView> {
       _isChecking = true;
     });
 
-    Get.snackbar(
-      "Connected",
-      "Bank connection completed! Checking balance...",
-      backgroundColor: Colors.greenAccent,
-    );
+    // Get.snackbar(
+    //   "Connected",
+    //   "Bank connection completed! Checking balance...",
+    //   backgroundColor: Colors.greenAccent,
+    // );
 
-    final hasMoney = await SaltEdgeService.checkMinBalance(widget.userId, 1);
+    final hasMoney = await SaltEdgeService.checkMinBalance(widget.userId, 5000);
 
     if (hasMoney) {
       Get.snackbar(
@@ -76,6 +77,7 @@ class _BankConnectWebViewState extends State<BankConnectWebView> {
         "User does not have enough balance",
         backgroundColor: Colors.redAccent,
       );
+      Get.offAll(() => NoEnoughBalance());
       Get.back(); // Back to BankScreen
     }
 

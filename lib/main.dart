@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
-import 'package:kyc_test/presentation/pages/introduction_screens/intro_screen.dart';
 import 'package:logger/logger.dart';
 import 'package:kyc_test/core/app/controller/app_controller.dart';
 import 'package:kyc_test/core/constants/themes/app_theme.dart';
@@ -48,7 +47,6 @@ AppController get app => Get.find<AppController>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // ! the bits_dojo Package
-
   //$ App Controller
   Get.put(AppController(), permanent: true);
   logger.i("App Controller has been initialized");

@@ -52,7 +52,6 @@ dependencies:
   skeletonizer: any
   #~ network and API and QR
   qr_flutter: ^4.1.0
-
   dio: ^5.9.0
   #! storage 
   connectivity_plus: ^6.0.1
