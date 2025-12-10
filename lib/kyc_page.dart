@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kyc_test/main.dart';
 import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
 import 'package:kyc_test/presentation/pages/auth/commercial_register_screen.dart';
 import 'package:kyc_test/veriff_service.dart';
@@ -23,7 +24,7 @@ class _KycPageState extends State<KycPage> {
   @override
   void initState() {
     super.initState();
-    _backend = BackendService('http://192.168.2.30:3000');
+    _backend = BackendService("http://${LaptopIp}:3000");
   }
 
   Future<void> _startKyc() async {

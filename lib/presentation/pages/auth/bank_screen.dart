@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
+import 'package:kyc_test/presentation/controllers/bank_controller.dart';
 
 class BankScreen extends StatelessWidget {
   const BankScreen({super.key});
@@ -8,6 +8,7 @@ class BankScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final BankController controller = Get.put(BankController());
 
     return Scaffold(
       body: Container(
@@ -43,15 +44,11 @@ class BankScreen extends StatelessWidget {
 
                     const Text(
                       'Please provide your bank details for transactions',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                      ),
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
                     ),
 
                     const SizedBox(height: 32),
 
-                    // === BANK FORM ===
                     Theme(
                       data: Theme.of(context).copyWith(
                         inputDecorationTheme: InputDecorationTheme(
@@ -79,60 +76,47 @@ class BankScreen extends StatelessWidget {
                           TextField(
                             style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
-                              hintText: 'Bank Name',
+                              hintText: 'Something',
                             ),
                           ),
-                          const SizedBox(height: 18),
-                          TextField(
-                            style: const TextStyle(color: Colors.white),
-                            decoration: const InputDecoration(
-                              hintText: 'Account Number',
-                            ),
-                          ),
-                          const SizedBox(height: 18),
-                          TextField(
-                            style: const TextStyle(color: Colors.white),
-                            decoration: const InputDecoration(
-                              hintText: 'IBAN',
-                            ),
-                          ),
-                          const SizedBox(height: 18),
-                          TextField(
-                            style: const TextStyle(color: Colors.white),
-                            decoration: const InputDecoration(
-                              hintText: 'SWIFT/BIC Code',
-                            ),
-                          ),
-                          const SizedBox(height: 18),
-                          TextField(
-                            style: const TextStyle(color: Colors.white),
-                            decoration: const InputDecoration(
-                              hintText: 'Account Holder Name',
-                            ),
-                          ),
+
                           const SizedBox(height: 32),
 
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Navigate to MobileLayout after bank info is submitted
-                                Get.offAll(() => const MobileLayout());
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFB08B4F),
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                          Obx(
+                            () => SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: controller.isLoading.value
+                                    ? null
+                                    : () async {
+                                        await controller.startBankFlow();
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFB08B4F),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                 ),
-                              ),
-                              child: const Text(
-                                'Submit Bank Information',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                child: controller.isLoading.value
+                                    ? const SizedBox(
+                                        height: 18,
+                                        width: 18,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : const Text(
+                                        'Submit Bank Information',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                               ),
                             ),
                           ),

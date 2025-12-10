@@ -20,7 +20,7 @@ class _CommercialRegisterScreenState extends State<CommercialRegisterScreen> {
       // IMPORTANT: use the nullable type so we can check for cancel
       final FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+        allowedExtensions: ['pdf'],
         withData: true, // helpful on web & for quick size/name access
       );
 
@@ -166,12 +166,6 @@ class _CommercialRegisterScreenState extends State<CommercialRegisterScreen> {
                           ),
                           const SizedBox(height: 18),
 
-                          const TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              hintText: 'Company Address',
-                            ),
-                          ),
                           const SizedBox(height: 24),
 
                           Align(
@@ -214,7 +208,7 @@ class _CommercialRegisterScreenState extends State<CommercialRegisterScreen> {
                                   Expanded(
                                     child: Text(
                                       _contractFileName ??
-                                          'Upload contract (PDF / image)',
+                                          'Upload contract ( Only PDF)',
                                       style: TextStyle(
                                         color: _contractFileName == null
                                             ? Colors.white.withOpacity(0.6)
