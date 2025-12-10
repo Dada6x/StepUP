@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:kyc_test/presentation/pages/auth/login.dart';
 
@@ -47,10 +49,7 @@ class ResetPinScreen extends StatelessWidget {
                       children: [
                         const Text(
                           "We’ve sent a 6-digit code to your email.",
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                         const SizedBox(height: 16),
 
@@ -99,7 +98,7 @@ class ResetPinScreen extends StatelessWidget {
                             const SizedBox(width: 12),
                             TextButton.icon(
                               onPressed: () {
-                                // TODO: verify code logic
+                                Get.offAll(() => MobileLayout());
                               },
                               icon: const SizedBox.shrink(),
                               label: Row(
@@ -127,67 +126,7 @@ class ResetPinScreen extends StatelessWidget {
 
                     SizedBox(height: size.height * 0.12),
 
-                    // === SAME "Or continue with" SECTION ===
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            color: Colors.white.withOpacity(0.25),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Or continue with',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.7),
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            color: Colors.white.withOpacity(0.25),
-                          ),
-                        ),
-                      ],
-                    ),
-
                     const SizedBox(height: 24),
-
-                    Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: 160,
-                        height: 40,
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2),
-                                child: SvgPicture.asset(
-                                  "assets/Google.svg",
-                                  width: 20,
-                                  height: 20,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              const Text(
-                                'Google',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
 
                     const SizedBox(height: 36),
 

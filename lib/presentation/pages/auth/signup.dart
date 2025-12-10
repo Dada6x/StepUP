@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
+import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:kyc_test/presentation/pages/auth/login.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -110,7 +111,7 @@ class SignupScreen extends StatelessWidget {
                               const SizedBox(width: 12),
                               TextButton.icon(
                                 onPressed: () {
-                                  // TODO: Add your create account logic here
+                                  Get.offAll(() => MobileLayout());
                                 },
                                 icon: const SizedBox.shrink(),
                                 label: Row(

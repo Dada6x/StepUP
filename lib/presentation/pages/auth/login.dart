@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
-import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/bi.dart';
-import 'package:iconify_flutter_plus/icons/simple_icons.dart';
+import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:kyc_test/presentation/pages/auth/forget_password.dart';
+import 'package:kyc_test/presentation/pages/auth/role.dart';
 import 'package:kyc_test/presentation/pages/auth/signup.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -96,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                               const SizedBox(width: 12),
                               TextButton.icon(
                                 onPressed: () {
-                                  // TODO: Add your login logic here
+                                  Get.offAll(() => MobileLayout());
                                 },
                                 icon: const SizedBox.shrink(),
                                 label: Row(
@@ -195,7 +193,10 @@ class LoginScreen extends StatelessWidget {
                               const SizedBox(width: 4),
                               const Text(
                                 'Google',
-                                style: TextStyle(color: Colors.white , fontSize: 16),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
@@ -208,7 +209,7 @@ class LoginScreen extends StatelessWidget {
                     Align(
                       child: GestureDetector(
                         onTap: () {
-                          Get.off(() => SignupScreen());
+                          Get.off(() => RoleScreen());
                         },
                         child: const Text(
                           "Don't have an account? Sign Up",
@@ -231,3 +232,8 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
+// register investor 
+// email name pass phone 
+// then the KYC 
+// then 
