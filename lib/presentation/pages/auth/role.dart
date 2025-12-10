@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kyc_test/presentation/pages/auth/login.dart';
+import 'package:kyc_test/presentation/pages/auth/signup.dart';
 
 class RoleScreen extends StatelessWidget {
   const RoleScreen({super.key});
@@ -43,10 +44,7 @@ class RoleScreen extends StatelessWidget {
 
                     const Text(
                       'Select whether you are an investor or a startup.',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                      ),
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
                     ),
 
                     const SizedBox(height: 32),
@@ -60,7 +58,12 @@ class RoleScreen extends StatelessWidget {
                           subtitle: 'Invest in promising startups',
                           icon: Icons.trending_up,
                           onTap: () {
-                            // TODO: handle investor selection
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SignupScreen(role: 'investor'),
+                              ),
+                            );
                           },
                         ),
                         const SizedBox(height: 16),
@@ -71,7 +74,12 @@ class RoleScreen extends StatelessWidget {
                           subtitle: 'Raise funds and grow your company',
                           icon: Icons.rocket_launch_outlined,
                           onTap: () {
-                            // TODO: handle startup selection
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SignupScreen(role: 'startup'),
+                              ),
+                            );
                           },
                         ),
                       ],
@@ -200,9 +208,7 @@ class _RoleCard extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.5),
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.5)),
           color: Colors.white.withOpacity(0.05),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -214,11 +220,7 @@ class _RoleCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: Colors.white.withOpacity(0.08),
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 22,
-              ),
+              child: Icon(icon, color: Colors.white, size: 22),
             ),
             const SizedBox(width: 14),
             Expanded(

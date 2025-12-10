@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/route_manager.dart';
-import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
+import 'package:kyc_test/kyc_page.dart';
 import 'package:kyc_test/presentation/pages/auth/login.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+  final String? role;
+
+  const SignupScreen({super.key, this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,8 @@ class SignupScreen extends StatelessWidget {
                               const SizedBox(width: 12),
                               TextButton.icon(
                                 onPressed: () {
-                                  Get.offAll(() => MobileLayout());
+                                  // Navigate to KYC screen with role information
+                                  Get.to(() => KycPage(role: role));
                                 },
                                 icon: const SizedBox.shrink(),
                                 label: Row(

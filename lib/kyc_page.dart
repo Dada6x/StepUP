@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
+import 'package:kyc_test/presentation/pages/auth/commercial_register_screen.dart';
 import 'package:kyc_test/veriff_service.dart';
 import 'package:veriff_flutter/veriff_flutter.dart';
 
 class KycPage extends StatefulWidget {
-  const KycPage({super.key});
+  final String? role;
+
+  const KycPage({super.key, this.role});
 
   @override
   State<KycPage> createState() => _KycPageState();
@@ -48,6 +52,22 @@ class _KycPageState extends State<KycPage> {
       setState(() {
         if (sdkResult.status == Status.done) {
           result = '✅ Completed! Check Veriff dashboard for details.';
+          // Navigate to appropriate screen based on role after successful KYC
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (widget.role == 'investor') {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const BankScreen()),
+              );
+            } else if (widget.role == 'startup') {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const CommercialRegisterScreen(),
+                ),
+              );
+            }
+          });
         } else if (sdkResult.status == Status.canceled) {
           result = '❌ User canceled the verification.';
         } else {
