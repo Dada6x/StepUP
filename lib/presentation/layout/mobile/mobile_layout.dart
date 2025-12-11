@@ -6,6 +6,7 @@ import 'package:kyc_test/main.dart';
 import 'package:kyc_test/presentation/layout/mobile/drawer.dart';
 import 'package:kyc_test/presentation/layout/mobile/widgets/app_bar.dart';
 import 'package:kyc_test/presentation/pages/home/mentor_dashboard.dart';
+import 'package:kyc_test/presentation/pages/messages/messages.dart';
 import 'package:kyc_test/presentation/pages/profile/profile_page.dart';
 import 'package:kyc_test/presentation/pages/search/search_page.dart';
 
@@ -25,7 +26,7 @@ class _MobileLayoutState extends State<MobileLayout> {
 
     return Scaffold(
       backgroundColor: AppTheme.cardDark,
-      appBar: mobileAppBar(),
+      appBar: MobileAppBar(),
       drawer: const MobileDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: AppTheme.gold,
@@ -40,6 +41,10 @@ class _MobileLayoutState extends State<MobileLayout> {
           BottomNavigationBarItem(
             icon: Iconify(Mdi.view_dashboard, color: AppTheme.gold, size: 25),
             label: "DashBoard",
+          ),
+          BottomNavigationBarItem(
+            icon: Iconify(Mdi.message, color: AppTheme.gold, size: 25),
+            label: "Messages",
           ),
           BottomNavigationBarItem(
             icon: Iconify(Mdi.search, color: AppTheme.gold, size: 30),
@@ -63,8 +68,8 @@ class _MobileLayoutState extends State<MobileLayout> {
         return const MentorDashBoard();
       case 1:
         //! Search
-        return const SearchPage();
-      case 2:
+        return const Messages();
+      case 3:
         //! Profile
         return const ProfilePage(
           name: 'Yahiea Dada',
@@ -75,6 +80,9 @@ class _MobileLayoutState extends State<MobileLayout> {
           avatarUrl:
               'https://app.requestly.io/delay/2000/avatars.githubusercontent.com/u/124599?v=4',
         );
+      case 2:
+        //! Search
+        return const SearchPage();
 
       default:
         return const MentorDashBoard();

@@ -21,12 +21,12 @@ class MentorDashBoard extends StatelessWidget {
             right: context.widthPx * -0.56,
             bottom: 0,
             child: Opacity(
-              opacity: 0.6, // 👈 your desired opacity
+              opacity: 0.2, // 👈 your desired opacity
               child: SizedBox(
                 height: context.heightPct(0.85),
-                width: context.widthPct(1.3),
+                width: context.widthPct(1.2),
                 child: SvgPicture.asset(
-                  'assets/mentor.svg',
+                  'assets/bss_man.svg',
                   fit: BoxFit.contain,
                 ),
               ),

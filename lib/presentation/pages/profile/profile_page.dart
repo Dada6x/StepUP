@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   final String name;
   final String profession;
   final String countryCode;
@@ -19,6 +20,27 @@ class ProfilePage extends StatelessWidget {
   });
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Fake loading to show skeletons.
+    // Later you can set this based on your real API.
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
@@ -32,84 +54,87 @@ class ProfilePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: size.width * 0.88),
-                child: Column(
-                  children: [
-                    // === Avatar ===
-                    Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: const Color(0xFFF0EAE0),
-                          width: 2,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.35),
-                            blurRadius: 14,
-                            offset: const Offset(0, 6),
+                child: Skeletonizer(
+                  enabled: _isLoading,
+                  child: Column(
+                    children: [
+                      // === Avatar ===
+                      Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFFF0EAE0),
+                            width: 2,
                           ),
-                        ],
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.35),
+                              blurRadius: 14,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: CircleAvatar(
+                          radius: 55,
+                          backgroundImage: widget.avatarUrl != null
+                              ? NetworkImage(widget.avatarUrl!)
+                              : null,
+                          backgroundColor: Colors.white.withOpacity(0.1),
+                          child: widget.avatarUrl == null
+                              ? Text(
+                                  _initialsFromName(widget.name),
+                                  style: const TextStyle(
+                                    fontSize: 34,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : null,
+                        ),
                       ),
-                      child: CircleAvatar(
-                        radius: 55,
-                        backgroundImage: avatarUrl != null
-                            ? NetworkImage(avatarUrl!)
-                            : null,
-                        backgroundColor: Colors.white.withOpacity(0.1),
-                        child: avatarUrl == null
-                            ? Text(
-                                _initialsFromName(name),
-                                style: const TextStyle(
-                                  fontSize: 34,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            : null,
+
+                      const SizedBox(height: 20),
+
+                      // === Name ===
+                      Text(
+                        widget.name,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 6),
 
-                    // === Name ===
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 26,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                      // === Profession ===
+                      Text(
+                        widget.profession,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white.withOpacity(0.7),
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 6),
+                      const SizedBox(height: 40),
 
-                    // === Profession ===
-                    Text(
-                      profession,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white.withOpacity(0.7),
+                      // === Info Rows (transparent, minimal) ===
+                      _TransparentInfoRow(
+                        icon: Icons.phone_outlined,
+                        label: "Phone",
+                        value: "${widget.countryCode} ${widget.phoneNumber}",
                       ),
-                    ),
+                      const SizedBox(height: 18),
+                      _TransparentInfoRow(
+                        icon: Icons.email_outlined,
+                        label: "Email",
+                        value: widget.email,
+                      ),
 
-                    const SizedBox(height: 40),
-
-                    // === Info Rows (transparent, minimal) ===
-                    _TransparentInfoRow(
-                      icon: Icons.phone_outlined,
-                      label: "Phone",
-                      value: "$countryCode $phoneNumber",
-                    ),
-                    const SizedBox(height: 18),
-                    _TransparentInfoRow(
-                      icon: Icons.email_outlined,
-                      label: "Email",
-                      value: email,
-                    ),
-
-                    const SizedBox(height: 150),
-                  ],
+                      const SizedBox(height: 150),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -122,7 +147,9 @@ class ProfilePage extends StatelessWidget {
   String _initialsFromName(String fullName) {
     final parts = fullName.trim().split(' ');
     if (parts.isEmpty) return '';
-    if (parts.length == 1) return parts.first.characters.first.toUpperCase();
+    if (parts.length == 1) {
+      return parts.first.characters.first.toUpperCase();
+    }
     return (parts.first.characters.first + parts.last.characters.first)
         .toUpperCase();
   }

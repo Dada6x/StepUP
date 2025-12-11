@@ -39,6 +39,7 @@ dependencies:
   #! UI Responsive
   sized_context: ^1.0.0+4
   flutter_screenutil: ^5.9.3
+  fl_chart: ^0.68.0 
   #! images and widgets
   flutter_svg: ^2.0.9
   fancy_shimmer_image: ^2.0.3
@@ -46,7 +47,8 @@ dependencies:
   #! animations
   flutter_animate: ^4.5.2
   webview_flutter: ^4.13.0
-  
+  flutter_chat_ui: ^1.0.0      # use latest
+  flutter_chat_types: ^3.0.0
   #!icons
   # https://andronasef.github.io/iconify_flutter
   iconify_flutter_plus: ^1.0.4
