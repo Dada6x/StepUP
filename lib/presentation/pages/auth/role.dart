@@ -29,34 +29,40 @@ class RoleScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40),
+                    // Small label
+                    const SizedBox(height: 25),
 
                     const Text(
                       'Choose your role',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 10),
 
                     const Text(
-                      'Select whether you are an investor or a startup.',
-                      style: TextStyle(color: Colors.white70, fontSize: 12),
+                      'Tell us how you’re joining StepUp so we can tailor your experience.',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 12,
+                        height: 1.4,
+                      ),
                     ),
 
                     const SizedBox(height: 32),
 
-                    // === ROLE CARDS ===
+                    // === TWO BIG VERTICAL CHOICES ===
                     Column(
                       children: [
-                        // Investor
-                        _RoleCard(
+                        _RoleOption(
                           title: 'Investor',
-                          subtitle: 'Invest in promising startups',
-                          icon: Icons.trending_up,
+                          subtitle:
+                              'Discover vetted startups and invest with clarity.',
+                          svgPath: 'assets/bss_man.svg',
+                          badgeText: 'I want to invest',
                           onTap: () {
                             Navigator.push(
                               context,
@@ -66,13 +72,13 @@ class RoleScreen extends StatelessWidget {
                             );
                           },
                         ),
-                        const SizedBox(height: 16),
-
-                        // Startup
-                        _RoleCard(
+                        const SizedBox(height: 18),
+                        _RoleOption(
                           title: 'Startup',
-                          subtitle: 'Raise funds and grow your company',
-                          icon: Icons.rocket_launch_outlined,
+                          subtitle:
+                              'Share your vision and raise smart capital.',
+                          svgPath: 'assets/startup.svg',
+                          badgeText: 'I’m building a startup',
                           onTap: () {
                             Navigator.push(
                               context,
@@ -85,75 +91,9 @@ class RoleScreen extends StatelessWidget {
                       ],
                     ),
 
-                    SizedBox(height: size.height * 0.12),
+                    SizedBox(height: 180),
 
-                    // === "Or continue with" SECTION (same design) ===
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            color: Colors.white.withOpacity(0.25),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Or continue with',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.7),
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            color: Colors.white.withOpacity(0.25),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        width: 160,
-                        height: 40,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            // TODO: Google auth from role screen
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2),
-                                child: SvgPicture.asset(
-                                  "assets/Google.svg",
-                                  width: 20,
-                                  height: 20,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              const Text(
-                                'Google',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 36),
-
-                    // === BOTTOM TEXT (back to login, same style) ===
+                    // === BOTTOM TEXT (back to login) ===
                     Align(
                       child: GestureDetector(
                         onTap: () {
@@ -167,14 +107,12 @@ class RoleScreen extends StatelessWidget {
                         child: const Text(
                           "Already have an account? Log in",
                           style: TextStyle(
-                            color: Color(0xFFB08B4F),
+                            color: Color(0xFFF0EAE0),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ),
-
-                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -186,52 +124,80 @@ class RoleScreen extends StatelessWidget {
   }
 }
 
-class _RoleCard extends StatelessWidget {
+class _RoleOption extends StatelessWidget {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final String svgPath;
+  final String badgeText;
   final VoidCallback onTap;
 
-  const _RoleCard({
-    super.key,
+  const _RoleOption({
     required this.title,
     required this.subtitle,
-    required this.icon,
+    required this.svgPath,
+    required this.badgeText,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Ink(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withOpacity(0.5)),
-          color: Colors.white.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white.withOpacity(0.35)),
+          color: Colors.white.withOpacity(0.04),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.35),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.08),
-              ),
-              child: Icon(icon, color: Colors.white, size: 22),
+            // SVG illustration
+            SizedBox(
+              height: 120,
+              width: 120,
+              child: SvgPicture.asset(svgPath, fit: BoxFit.contain),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 16),
+
+            // Texts
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Badge / pill
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      badgeText,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Text(
                     title,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -239,13 +205,17 @@ class _RoleCard extends StatelessWidget {
                   Text(
                     subtitle,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withOpacity(0.75),
                       fontSize: 12,
+                      height: 1.3,
                     ),
                   ),
                 ],
               ),
             ),
+
+            const SizedBox(width: 8),
+
             const Icon(
               Icons.arrow_forward_ios_rounded,
               color: Colors.white70,

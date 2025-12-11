@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
-import 'package:kyc_test/kyc_page.dart';
+import 'package:kyc_test/presentation/pages/auth/veriff/kyc_verriff.dart';
 import 'package:kyc_test/presentation/pages/auth/login.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -213,7 +213,7 @@ class SignupScreen extends StatelessWidget {
                         child: const Text(
                           "Already have an account? Log in",
                           style: TextStyle(
-                            color: Color(0xFFB08B4F),
+                            color: Color(0xFFF0EAE0),
                             fontWeight: FontWeight.w600,
                           ),
                         ),

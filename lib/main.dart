@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:kyc_test/kyc_page.dart';
-import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
-import 'package:kyc_test/presentation/pages/introduction_screens/intro_screen.dart';
+import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:logger/logger.dart';
 import 'package:kyc_test/core/app/controller/app_controller.dart';
 import 'package:kyc_test/core/constants/themes/app_theme.dart';
@@ -26,7 +24,7 @@ var logger = Logger(
   ),
 );
 
-String LaptopIp = "192.168.1.3";
+String LaptopIp = "192.168.0.120";
 
 bool isMobile(BuildContext context) => context.isPhone;
 bool isDesktop(BuildContext context) => context.isLandscape;
@@ -75,7 +73,7 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.dark,
           themeMode: app.themeMode.value,
           // home: ObsidianSplashPage(),
-          home: OnBoardingPage(),
+          home: MobileLayout(),
         ),
       ),
     );

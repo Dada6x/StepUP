@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
-import 'package:kyc_test/presentation/pages/auth/commercial_register_screen.dart';
-import 'package:kyc_test/kyc_page.dart';
+import 'package:kyc_test/presentation/pages/auth/bank/bank_screen.dart';
+import 'package:kyc_test/presentation/pages/auth/bank/commercial_register_screen.dart';
+import 'package:kyc_test/presentation/pages/auth/veriff/kyc_verriff.dart';
 import 'package:kyc_test/presentation/pages/auth/signup.dart';
 
 class AuthController extends GetxController {

@@ -5,7 +5,6 @@ import 'package:get/route_manager.dart';
 import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:kyc_test/presentation/pages/auth/forget_password.dart';
 import 'package:kyc_test/presentation/pages/auth/role.dart';
-import 'package:kyc_test/presentation/pages/auth/signup.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -132,7 +131,10 @@ class LoginScreen extends StatelessWidget {
                               },
                               child: const Text(
                                 'Forgot your password?',
-                                style: TextStyle(fontSize: 11),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -204,7 +206,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 36),
+                    const SizedBox(height: 115),
                     // === BOTTOM TEXT ===
                     Align(
                       child: GestureDetector(
@@ -214,14 +216,12 @@ class LoginScreen extends StatelessWidget {
                         child: const Text(
                           "Don't have an account? Sign Up",
                           style: TextStyle(
-                            color: Color(0xFFB08B4F),
+                            color: Color(0xFFF0EAE0),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ),
-
-                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -232,8 +232,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-// register investor 
-// email name pass phone 
-// then the KYC 
-// then 

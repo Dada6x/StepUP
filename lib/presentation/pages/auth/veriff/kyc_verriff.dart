@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/arcticons.dart';
-import 'package:iconify_flutter_plus/icons/bi.dart';
 import 'package:iconify_flutter_plus/icons/bx.dart';
-import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:iconify_flutter_plus/icons/ci.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
-import 'package:iconify_flutter_plus/icons/ph.dart';
-import 'package:iconify_flutter_plus/icons/uil.dart';
 import 'package:kyc_test/main.dart';
-import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
-import 'package:kyc_test/presentation/pages/auth/commercial_register_screen.dart';
-import 'package:kyc_test/veriff_service.dart';
+import 'package:kyc_test/presentation/pages/auth/bank/bank_screen.dart';
+import 'package:kyc_test/presentation/pages/auth/bank/commercial_register_screen.dart';
 import 'package:veriff_flutter/veriff_flutter.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class KycPage extends StatefulWidget {
   final String? role;
@@ -33,7 +29,7 @@ class _KycPageState extends State<KycPage> {
   @override
   void initState() {
     super.initState();
-    _backend = BackendService("http://${LaptopIp}:3000");
+    _backend = BackendService("http://$LaptopIp:3000");
   }
 
   Future<void> _startKyc() async {
@@ -84,7 +80,7 @@ class _KycPageState extends State<KycPage> {
       setState(() {
         result = 'PlatformException: ${e.code} - ${e.message}';
       });
-    } catch (e, stack) {
+    } catch (e) {
       setState(() {
         result = 'Unknown error: $e';
       });
@@ -236,7 +232,7 @@ class _KycPageState extends State<KycPage> {
                         child: ElevatedButton(
                           onPressed: loading ? null : _startKyc,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFB08B4F),
+                            backgroundColor: const Color(0xFFF0EAE0),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -344,7 +340,7 @@ class _StepItem extends StatelessWidget {
               width: 30,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFFB08B4F),
+                color: const Color(0xFFF0EAE0),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.35),
@@ -417,5 +413,44 @@ class _StepItem extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class BackendService {
+  final Dio _dio;
+
+  BackendService(String baseUrl) : _dio = Dio(BaseOptions(baseUrl: baseUrl));
+
+  Future<String> createVeriffSession(String userId) async {
+    try {
+      debugPrint('🔵 [BackendService] createVeriffSession for $userId');
+
+      final response = await _dio.post(
+        '/veriff/session',
+        data: {'userId': userId},
+      );
+
+      debugPrint('✅ [BackendService] status: ${response.statusCode}');
+      debugPrint('✅ [BackendService] data: ${response.data}');
+
+      if (response.statusCode != 200) {
+        throw Exception('HTTP ${response.statusCode}: ${response.data}');
+      }
+
+      final data = response.data as Map<String, dynamic>;
+      final sessionUrl = data['sessionUrl'] as String?;
+      if (sessionUrl == null) {
+        throw Exception('No sessionUrl in backend response');
+      }
+
+      return sessionUrl;
+    } on DioException catch (e) {
+      debugPrint('❌ [BackendService] DioException: ${e.message}');
+      debugPrint('❌ [BackendService] response: ${e.response?.data}');
+      throw Exception('Backend DioException: ${e.message}');
+    } catch (e) {
+      debugPrint('💥 [BackendService] Unknown error: $e');
+      throw Exception("Unknown error in createSession: $e");
+    }
   }
 }

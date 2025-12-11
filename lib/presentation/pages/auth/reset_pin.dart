@@ -143,7 +143,7 @@ class ResetPinScreen extends StatelessWidget {
                         child: const Text(
                           "Remembered your password? Log in",
                           style: TextStyle(
-                            color: Color(0xFFB08B4F),
+                            color: Color(0xFFF0EAE0),
                             fontWeight: FontWeight.w600,
                           ),
                         ),

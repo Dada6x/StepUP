@@ -8,8 +8,8 @@ import 'package:kyc_test/main.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class MentorDashBoard extends StatelessWidget {
+  const MentorDashBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,32 +19,20 @@ class HomePage extends StatelessWidget {
         children: [
           Positioned(
             right: context.widthPx * -0.56,
-            bottom: context.heightPx * -0,
-            child: SizedBox(
-              height: context.heightPct(0.85),
-              width: context.widthPct(1.3),
-              child: SvgPicture.asset(
-                'assets/images/obsidian_logo.svg',
-                fit: BoxFit.contain,
+            bottom: 0,
+            child: Opacity(
+              opacity: 0.6, // 👈 your desired opacity
+              child: SizedBox(
+                height: context.heightPct(0.85),
+                width: context.widthPct(1.3),
+                child: SvgPicture.asset(
+                  'assets/mentor.svg',
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ).animate().fadeIn(),
 
-          // ! idk why i kept this :P
-          // Align(
-          //   alignment: Alignment.bottomRight,
-          //   child: FractionalTranslation(
-          //     translation: const Offset(0.45, 0),
-          //     child: SizedBox(
-          //       height: context.heightPct(2.1),
-          //       width: context.widthPct(2.1),
-          //       child: SvgPicture.asset(
-          //         'assets/images/obsidian_logo.svg',
-          //         fit: BoxFit.contain,
-          //       ),
-          //     ),
-          //   ),
-          // ).animate().fadeIn(),
           Center(
             child: Obx(
               () => Skeletonizer(

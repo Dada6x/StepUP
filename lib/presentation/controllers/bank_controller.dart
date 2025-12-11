@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:kyc_test/core/services/saltedge_service.dart';
-import 'package:kyc_test/presentation/pages/auth/bank_connect_webview.dart';
+import 'package:kyc_test/presentation/pages/auth/bank/bank_connect_webview.dart';
 
 class BankController extends GetxController {
   final isLoading = false.obs;
 
   //! this should be taken from the investor
-  final String userId = "BIGAMount";
+  final String userId = "DDDDDDDDD";
 
   Future<void> startBankFlow() async {
     if (isLoading.value) return;

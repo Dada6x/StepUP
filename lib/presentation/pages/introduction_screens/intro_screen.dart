@@ -120,7 +120,7 @@ class OnBoardingPage extends StatelessWidget {
                 "Get started",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFFB08B4F),
+                  color: Color(0xFFF0EAE0),
                   fontSize: 13,
                 ),
               ),
@@ -132,7 +132,7 @@ class OnBoardingPage extends StatelessWidget {
               dotsDecorator: DotsDecorator(
                 size: const Size(6, 6),
                 color: Colors.white.withOpacity(0.35),
-                activeColor: const Color(0xFFB08B4F),
+                activeColor: const Color(0xFFF0EAE0),
                 activeSize: const Size(18, 6),
                 activeShape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -155,10 +155,9 @@ class _OnboardingSvg extends StatelessWidget {
   final double width;
 
   const _OnboardingSvg({
-    super.key,
     required this.assetPath,
-    this.height = 500, // 👈 default height
-    this.width = 500, // 👈 default width
+    this.height = 500,
+    this.width = 500,
   });
 
   @override

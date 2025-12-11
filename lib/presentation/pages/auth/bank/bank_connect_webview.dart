@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kyc_test/presentation/pages/auth/no_enough_balance.dart';
+import 'package:kyc_test/presentation/pages/auth/bank/no_enough_balance.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:kyc_test/core/services/saltedge_service.dart';
 import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';

@@ -3,37 +3,67 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
+  // BRAND COLORS
+  static const Color primaryDark = Color(0xFF042A2B);
+  static const Color primaryDarker = Color(0xFF021416);
+  static const Color gold = Color(0xFFF0EAE0);
+  static const Color surfaceDark = Color(0xFF0A0F10); // nice glossy dark
+  static const Color cardDark = Color(0xFF0D1A1B); // subtle teal tint
+
+  // -------------------------------
+  // 🌞 LIGHT THEME
+  // -------------------------------
   static final ThemeData light = ThemeData(
-    brightness: Brightness.light,
     useMaterial3: true,
-    //for the scaffold bg
-    scaffoldBackgroundColor: const Color(0xFFEFEFF0),
-    // for the obsidian icon
-    canvasColor: const Color(0xFFEFEFF0),
-    // for the Card
+    brightness: Brightness.light,
+
+    scaffoldBackgroundColor: Colors.white,
+    canvasColor: Colors.white,
     cardColor: Colors.white,
-    //! Color Schema
+
     colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color(0xFF242628),
+      seedColor: gold,
       brightness: Brightness.light,
-      background: const Color(0xFFFFFFFF),
+      primary: primaryDark,
+      secondary: gold,
+      background: Colors.white,
+      surface: Colors.white,
+    ),
+
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.black87),
+      bodySmall: TextStyle(color: Colors.black54),
     ),
   );
 
+  // -------------------------------
+  // 🌚 DARK THEME (StepUp STYLE)
+  // -------------------------------
   static final ThemeData dark = ThemeData(
-    brightness: Brightness.dark,
     useMaterial3: true,
-    // for the scaffold
-    scaffoldBackgroundColor: const Color(0xFF171717),
-    // for the obsidian icon
-    canvasColor: const Color(0xFF202020),
-    // for theCard
-    cardColor: const Color(0xFF0D0D0D),
+    brightness: Brightness.dark,
+
+    // MAIN BACKGROUND (matches your onboarding & flows)
+    scaffoldBackgroundColor: primaryDark,
+
+    // Raw surfaces like BottomSheets / Drawers
+    canvasColor: primaryDarker,
+
+    // Cards / floating elements in dark mode
+    cardColor: Colors.white.withOpacity(0.05),
+
     colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color(0xFF242628),
+      seedColor: gold,
       brightness: Brightness.dark,
-      // background: const Color(0xFF0D0D0D),
-      background: const Color(0xFF040404),
+      primary: gold, // buttons, accents
+      secondary: Colors.white70,
+      background: primaryDarker, // deeper background
+      surface: surfaceDark, // modal sheets, containers
+    ),
+
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.white),
+      bodySmall: TextStyle(color: Colors.white70),
     ),
   );
 }

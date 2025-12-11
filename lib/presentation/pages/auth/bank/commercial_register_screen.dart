@@ -230,7 +230,7 @@ class _CommercialRegisterScreenState extends State<CommercialRegisterScreen> {
                             child: ElevatedButton(
                               onPressed: _submit,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFB08B4F),
+                                backgroundColor: const Color(0xFFF0EAE0),
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 16,
                                 ),

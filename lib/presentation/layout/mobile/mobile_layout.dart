@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:kyc_test/core/constants/themes/app_theme.dart';
 import 'package:kyc_test/main.dart';
 import 'package:kyc_test/presentation/layout/mobile/drawer.dart';
 import 'package:kyc_test/presentation/layout/mobile/widgets/app_bar.dart';
-import 'package:kyc_test/presentation/pages/home/mobile_home.dart';
+import 'package:kyc_test/presentation/pages/home/mentor_dashboard.dart';
 import 'package:kyc_test/presentation/pages/profile/profile_page.dart';
 import 'package:kyc_test/presentation/pages/search/search_page.dart';
 
@@ -21,29 +24,12 @@ class _MobileLayoutState extends State<MobileLayout> {
     logger.i("working on Mobile Device");
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      // backgroundColor: Color(0xFF040404),
-
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).colorScheme.background,
-      //   actions: [
-      //     IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-      //     Obx(
-      //       () => IconButton(
-      //         icon: Icon(
-      //           app.isDarkMode ? Icons.dark_mode : Icons.light_mode,
-      //         ),
-      //         onPressed: app.toggleTheme,
-      //       ),
-      //     ),
-      //   ],
-      //   title: const Text("Obsidian"),
-      // ),
+      backgroundColor: AppTheme.cardDark,
       appBar: mobileAppBar(),
       drawer: const MobileDrawer(),
       bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: Theme.of(context).cardColor,
-        fixedColor: app.isDarkMode ? Colors.white : Colors.black,
+        fixedColor: AppTheme.gold,
+        unselectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
@@ -51,9 +37,18 @@ class _MobileLayoutState extends State<MobileLayout> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.lock), label: "Passwords"),
-          BottomNavigationBarItem(icon: Icon(Icons.note), label: "Memos"),
+          BottomNavigationBarItem(
+            icon: Iconify(Mdi.view_dashboard, color: AppTheme.gold, size: 25),
+            label: "DashBoard",
+          ),
+          BottomNavigationBarItem(
+            icon: Iconify(Mdi.search, color: AppTheme.gold, size: 30),
+            label: "Search",
+          ),
+          BottomNavigationBarItem(
+            icon: Iconify(Mdi.face_profile, color: AppTheme.gold, size: 25),
+            label: "Profile",
+          ),
         ],
       ),
       body: _buildMobilePage(_selectedIndex),
@@ -65,16 +60,24 @@ class _MobileLayoutState extends State<MobileLayout> {
     switch (index) {
       case 0:
         //! Home
-        return const HomePage();
+        return const MentorDashBoard();
       case 1:
         //! Search
         return const SearchPage();
       case 2:
         //! Profile
-        return const ProfilePage();
+        return const ProfilePage(
+          name: 'Yahiea Dada',
+          profession: 'Investor',
+          countryCode: '+963',
+          phoneNumber: '980 817 760',
+          email: 'yahieadada@gmail.com',
+          avatarUrl:
+              'https://app.requestly.io/delay/2000/avatars.githubusercontent.com/u/124599?v=4',
+        );
 
       default:
-        return const HomePage();
+        return const MentorDashBoard();
     }
   }
 }
