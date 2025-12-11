@@ -56,11 +56,14 @@ class OnBoardingPage extends StatelessWidget {
 
                 // 2) For Startups
                 PageViewModel(
-
                   title: "Boost Your Startup",
                   body:
                       "Show your startup, get feedback, and prepare for real investment.",
-                  image: const _OnboardingSvg(assetPath: 'assets/boost.svg',),
+                  image: const _OnboardingSvg(
+                    assetPath: 'assets/boost.svg',
+                    height: 500,
+                    width: 300,
+                  ),
                   decoration: pageDecoration,
                 ),
 
@@ -78,7 +81,11 @@ class OnBoardingPage extends StatelessWidget {
                   title: "Mentor With Impact",
                   body:
                       "Share your experience and help founders avoid the mistakes you’ve seen.",
-                  image: const _OnboardingSvg(assetPath: 'assets/mentor.svg'),
+                  image: const _OnboardingSvg(
+                    assetPath: 'assets/mentor.svg',
+                    width: 600,
+                    height: 600,
+                  ),
                   decoration: pageDecoration,
                 ),
 
@@ -87,7 +94,11 @@ class OnBoardingPage extends StatelessWidget {
                   title: "Trusted & Secure",
                   body:
                       "StepUp keeps your identity and data safe while you focus on growth.",
-                  image: const _OnboardingSvg(assetPath: 'assets/secure.svg'),
+                  image: const _OnboardingSvg(
+                    assetPath: 'assets/secure.svg',
+                    width: 420,
+                    height: 420,
+                  ),
                   decoration: pageDecoration,
                 ),
               ],
@@ -140,15 +151,22 @@ class OnBoardingPage extends StatelessWidget {
 /// SVG helper widget for onboarding illustrations (no circle)
 class _OnboardingSvg extends StatelessWidget {
   final String assetPath;
+  final double height;
+  final double width;
 
-  const _OnboardingSvg({super.key, required this.assetPath});
+  const _OnboardingSvg({
+    super.key,
+    required this.assetPath,
+    this.height = 500, // 👈 default height
+    this.width = 500, // 👈 default width
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: 500,
-        width: 500,
+        height: height,
+        width: width,
         child: SvgPicture.asset(assetPath, fit: BoxFit.contain),
       ),
     );
