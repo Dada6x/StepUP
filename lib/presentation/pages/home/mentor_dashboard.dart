@@ -1,60 +1,380 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:kyc_test/core/services/network_service.dart';
-import 'package:kyc_test/main.dart';
-import 'package:sized_context/sized_context.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:fl_chart/fl_chart.dart';
 
-class MentorDashBoard extends StatelessWidget {
-  const MentorDashBoard({super.key});
+const _bgColor = Color(0xFF050816);
+const _cardColor = Color(0xFF042A2B);
+const _accentPurple = Color(0xFFAE8B4D);
+const _accentGreen = Color(0xFF10B981);
+
+class MentorDashboardPage extends StatelessWidget {
+  const MentorDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            right: context.widthPx * -0.56,
-            bottom: 0,
-            child: Opacity(
-              opacity: 0.2, // 👈 your desired opacity
-              child: SizedBox(
-                height: context.heightPct(0.85),
-                width: context.widthPct(1.2),
-                child: SvgPicture.asset(
-                  'assets/bss_man.svg',
-                  fit: BoxFit.contain,
-                ),
+    final spots = [
+      const FlSpot(0, 2),
+      const FlSpot(1, 3.5),
+      const FlSpot(2, 4),
+      const FlSpot(3, 6),
+    ];
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            // Mentoring hours + chart
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Mentoring Hours (This Month)',
+                    style: TextStyle(color: Colors.grey, fontSize: 13),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    '26.5 h',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: _accentGreen.withOpacity(0.16),
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: const Text(
+                          '+3.2 h vs last month',
+                          style: TextStyle(
+                            color: _accentGreen,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Across 9 startups',
+                        style: TextStyle(color: Colors.grey[400], fontSize: 11),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: const [
+                      _PillChip(label: 'This month', selected: true),
+                      SizedBox(width: 8),
+                      _PillChip(label: '3M'),
+                      SizedBox(width: 8),
+                      _PillChip(label: 'YTD'),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  _buildLineChart(spots: spots, color: _accentGreen),
+                ],
               ),
             ),
-          ).animate().fadeIn(),
 
-          Center(
-            child: Obx(
-              () => Skeletonizer(
-                enabled: isOffline.value,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(app.isDarkMode ? "DarkMode" : "lightMode"),
-                    SizedBox(height: 20.h),
-                    Obx(() {
-                      return Text(
-                        isOffline.value ? "Offline" : "Online",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      );
-                    }),
-                    SizedBox(height: 20.h),
-                  ],
-                ),
+            const SizedBox(height: 20),
+
+            // Mentor stats
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                children: const [
+                  _SectionTitle(title: 'Mentor Stats'),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _StatItem(
+                        label: 'Active Startups',
+                        value: '9',
+                        sub: '3 new this month',
+                      ),
+                      _StatItem(
+                        label: 'Avg. Rating',
+                        value: '4.8 / 5',
+                        sub: '32 reviews',
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _StatItem(
+                        label: 'Sessions',
+                        value: '41',
+                        sub: 'Last 90 days',
+                      ),
+                      _StatItem(
+                        label: 'Deals Closed',
+                        value: '3',
+                        sub: 'Mentored to funding',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Today sessions
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: _cardColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                children: [
+                  const _SectionTitle(
+                    title: 'Today\'s Sessions',
+                    actionText: 'View calendar',
+                  ),
+                  const SizedBox(height: 12),
+                  _sessionRow(
+                    title: 'EcoSolar',
+                    subtitle: 'Fundraising narrative • 10:00–10:45',
+                  ),
+                  const Divider(color: Colors.white12),
+                  _sessionRow(
+                    title: 'MediConnect',
+                    subtitle: 'Go-to-market review • 13:00–13:30',
+                  ),
+                  const Divider(color: Colors.white12),
+                  _sessionRow(
+                    title: 'AgriSense',
+                    subtitle: 'Unit economics • 16:00–16:45',
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            _PrimaryButton(label: 'Open Deal Room', onTap: () {}),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _buildLineChart({
+    required List<FlSpot> spots,
+    Color color = _accentGreen,
+  }) {
+    return SizedBox(
+      height: 180,
+      child: LineChart(
+        LineChartData(
+          backgroundColor: Colors.transparent,
+          gridData: FlGridData(show: false),
+          titlesData: FlTitlesData(
+            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 24,
+                getTitlesWidget: (value, meta) {
+                  final labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+                  final index = value.toInt();
+                  return Text(
+                    index >= 0 && index < labels.length ? labels[index] : '',
+                    style: const TextStyle(color: Colors.grey, fontSize: 10),
+                  );
+                },
               ),
             ),
           ),
+          borderData: FlBorderData(show: false),
+          minY: 0,
+          maxY: 10,
+          lineBarsData: [
+            LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              barWidth: 2.5,
+              color: color,
+              isStrokeCapRound: true,
+              dotData: FlDotData(show: true),
+              belowBarData: BarAreaData(
+                show: true,
+                color: color.withOpacity(0.15),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _sessionRow({required String title, required String subtitle}) {
+    return Row(
+      children: [
+        const Icon(Icons.video_call, color: Colors.white70, size: 22),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: TextStyle(color: Colors.grey[400], fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+        const Icon(Icons.chevron_right, color: Colors.white54),
+      ],
+    );
+  }
+}
+
+/// local helpers
+
+class _SectionTitle extends StatelessWidget {
+  final String title;
+  final String? actionText;
+
+  const _SectionTitle({required this.title, this.actionText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const Spacer(),
+        if (actionText != null)
+          Text(
+            actionText!,
+            style: TextStyle(color: Colors.grey[400], fontSize: 12),
+          ),
+      ],
+    );
+  }
+}
+
+class _PillChip extends StatelessWidget {
+  final String label;
+  final bool selected;
+
+  const _PillChip({required this.label, this.selected = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        color: selected ? _accentPurple : Colors.white.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 12,
+          color: selected ? Colors.white : Colors.grey[300],
+          fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+        ),
+      ),
+    );
+  }
+}
+
+class _StatItem extends StatelessWidget {
+  final String label;
+  final String value;
+  final String? sub;
+
+  const _StatItem({required this.label, required this.value, this.sub});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyle(color: Colors.grey[400], fontSize: 12)),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        if (sub != null) ...[
+          const SizedBox(height: 2),
+          Text(sub!, style: TextStyle(color: Colors.grey[500], fontSize: 11)),
         ],
+      ],
+    );
+  }
+}
+
+class _PrimaryButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _PrimaryButton({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: FilledButton(
+        style: FilledButton.styleFrom(
+          backgroundColor: _accentPurple,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        onPressed: onTap,
+        child: Text(
+          label,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
       ),
     );
   }

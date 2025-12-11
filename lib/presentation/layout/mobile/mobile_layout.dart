@@ -5,7 +5,9 @@ import 'package:kyc_test/core/constants/themes/app_theme.dart';
 import 'package:kyc_test/main.dart';
 import 'package:kyc_test/presentation/layout/mobile/drawer.dart';
 import 'package:kyc_test/presentation/layout/mobile/widgets/app_bar.dart';
+import 'package:kyc_test/presentation/pages/home/investor_dashBoard.dart';
 import 'package:kyc_test/presentation/pages/home/mentor_dashboard.dart';
+import 'package:kyc_test/presentation/pages/home/start_up_dashbord.dart';
 import 'package:kyc_test/presentation/pages/messages/messages.dart';
 import 'package:kyc_test/presentation/pages/profile/profile_page.dart';
 import 'package:kyc_test/presentation/pages/search/search_page.dart';
@@ -65,7 +67,10 @@ class _MobileLayoutState extends State<MobileLayout> {
     switch (index) {
       case 0:
         //! Home
-        return const MentorDashBoard();
+        return const MentorDashboardPage();
+        // return const InvestorDashboardPage();
+        // return const StartupDashboardPage();
+
       case 1:
         //! Search
         return const Messages();
@@ -85,7 +90,7 @@ class _MobileLayoutState extends State<MobileLayout> {
         return const SearchPage();
 
       default:
-        return const MentorDashBoard();
+        return const MentorDashboardPage();
     }
   }
 }
