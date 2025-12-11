@@ -33,8 +33,7 @@ class _SearchPageState extends State<SearchPage> {
       mentoringStatus: 'In Mentoring',
       dealRoomStatus: 'Not yet in Deal Room',
       startupName: 'EcoSolar Team',
-      imageUrl:
-          'https://images.pexels.com/photos/987544/pexels-photo-987544.jpeg?auto=compress&cs=tinysrgb&w=800', // solar panels
+      imageUrl: 'assets/logo1.jpeg',
     ),
     Project(
       id: 'p2',
@@ -50,8 +49,7 @@ class _SearchPageState extends State<SearchPage> {
       mentoringStatus: 'Ready for Deal Room',
       dealRoomStatus: 'Visible in Investor Deal Room',
       startupName: 'MediConnect',
-      imageUrl:
-          'https://images.pexels.com/photos/7578800/pexels-photo-7578800.jpeg?auto=compress&cs=tinysrgb&w=800', // telehealth
+      imageUrl: 'assets/logo2.jpeg',
     ),
     Project(
       id: 'p3',
@@ -65,8 +63,7 @@ class _SearchPageState extends State<SearchPage> {
       mentoringStatus: 'In Mentoring',
       dealRoomStatus: 'Screening for Deal Room',
       startupName: 'AgriSense',
-      imageUrl:
-          'https://images.pexels.com/photos/2886937/pexels-photo-2886937.jpeg?auto=compress&cs=tinysrgb&w=800', // farm
+      imageUrl: 'assets/logo4.jpeg',
     ),
     Project(
       id: 'p4',
@@ -80,8 +77,7 @@ class _SearchPageState extends State<SearchPage> {
       mentoringStatus: 'Onboarding',
       dealRoomStatus: 'Not eligible yet',
       startupName: 'StepUp Edu',
-      imageUrl:
-          'https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=800', // learning
+      imageUrl: 'assets/logo5.jpeg',
     ),
   ];
 
@@ -376,7 +372,8 @@ class _SearchPageState extends State<SearchPage> {
             crossAxisCount: 2, // 2 per row
             mainAxisSpacing: 12,
             crossAxisSpacing: 12,
-            childAspectRatio: 4 / 3,
+            // FIX: make cards taller to avoid overflow
+            childAspectRatio: 0.75,
           ),
           itemBuilder: (context, index) {
             final project = projects[index];
@@ -402,7 +399,7 @@ class _SearchPageState extends State<SearchPage> {
                     if (project.imageUrl != null)
                       AspectRatio(
                         aspectRatio: 16 / 9,
-                        child: Image.network(
+                        child: Image.asset(
                           project.imageUrl!,
                           fit: BoxFit.cover,
                         ),
@@ -417,7 +414,9 @@ class _SearchPageState extends State<SearchPage> {
                               project.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleMedium
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 4),
@@ -425,7 +424,9 @@ class _SearchPageState extends State<SearchPage> {
                               '${project.sector} • ${project.stage}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodySmall
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
                                   ?.copyWith(color: Colors.grey[600]),
                             ),
                             const SizedBox(height: 4),
@@ -526,13 +527,10 @@ class _SearchPageState extends State<SearchPage> {
             itemBuilder: (context, index) {
               final person = people[index];
               final bool isInvestor = person.type == _PersonType.investor;
-              final Color badgeColor = isInvestor
-                  ? Colors.green
-                  : Colors.blueAccent;
+              final Color badgeColor = isInvestor ? Colors.green : Colors.blueAccent;
               final String badgeText = isInvestor ? 'Investor' : 'Startup';
-              final IconData badgeIcon = isInvestor
-                  ? Icons.attach_money
-                  : Icons.rocket_launch;
+              final IconData badgeIcon =
+                  isInvestor ? Icons.attach_money : Icons.rocket_launch;
 
               return GestureDetector(
                 onTap: _isLoading
@@ -608,8 +606,8 @@ class _SearchPageState extends State<SearchPage> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ),
                     SizedBox(
@@ -618,9 +616,9 @@ class _SearchPageState extends State<SearchPage> {
                         badgeText,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: badgeColor,
-                          fontWeight: FontWeight.w500,
-                        ),
+                              color: badgeColor,
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
                     ),
                   ],
@@ -763,7 +761,8 @@ class ProjectDetailsPage extends StatelessWidget {
           if (project.imageUrl != null)
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.network(
+              // FIX: use Image.asset because project image is a local asset
+              child: Image.asset(
                 project.imageUrl!,
                 height: 180,
                 width: double.infinity,
@@ -773,16 +772,18 @@ class ProjectDetailsPage extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             project.name,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(
             '${project.sector} • ${project.stage}',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[700]),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: Colors.grey[700]),
           ),
           const SizedBox(height: 16),
 
@@ -835,9 +836,10 @@ class ProjectDetailsPage extends StatelessWidget {
           _detailSectionTitle(context, 'Startup'),
           Text(
             project.startupName,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.w600),
           ),
 
           const SizedBox(height: 24),
@@ -858,9 +860,10 @@ class ProjectDetailsPage extends StatelessWidget {
   Widget _detailSectionTitle(BuildContext context, String text) {
     return Text(
       text,
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(context)
+          .textTheme
+          .titleMedium
+          ?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }
@@ -898,15 +901,18 @@ class StartupDetailsPage extends StatelessWidget {
                   children: [
                     Text(
                       startup.name,
-                      style: Theme.of(context).textTheme.headlineSmall
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Startup • ${startup.stage}',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.blueAccent,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.blueAccent),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -944,9 +950,10 @@ class StartupDetailsPage extends StatelessWidget {
   Widget _detailTitle(BuildContext context, String text) {
     return Text(
       text,
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(context)
+          .textTheme
+          .titleMedium
+          ?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }
@@ -986,7 +993,9 @@ class InvestorDetailsPage extends StatelessWidget {
                   children: [
                     Text(
                       investor.name,
-                      style: Theme.of(context).textTheme.headlineSmall
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
@@ -1020,7 +1029,8 @@ class InvestorDetailsPage extends StatelessWidget {
 
           const SizedBox(height: 24),
           _detailTitle(context, 'Investment Thesis'),
-          Text(investor.thesis, style: Theme.of(context).textTheme.bodyMedium),
+          Text(investor.thesis,
+              style: Theme.of(context).textTheme.bodyMedium),
 
           const SizedBox(height: 16),
           _detailTitle(context, 'Ticket Size'),
@@ -1050,9 +1060,10 @@ class InvestorDetailsPage extends StatelessWidget {
   Widget _detailTitle(BuildContext context, String text) {
     return Text(
       text,
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(context)
+          .textTheme
+          .titleMedium
+          ?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }
