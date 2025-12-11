@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 const _cardColor = Color(0xFF042A2B);
 const _accentPurple = Color(0xFFAE8B4D);
 const _accentGreen = Color(0xFF10B981);
 const _accentRed = Color(0xFFEF4444);
 
-class StartupDashboardPage extends StatelessWidget {
+class StartupDashboardPage extends StatefulWidget {
   const StartupDashboardPage({super.key});
+
+  @override
+  State<StartupDashboardPage> createState() => _StartupDashboardPageState();
+}
+
+class _StartupDashboardPageState extends State<StartupDashboardPage> {
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Fake loading – swap this with your real async loading
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,269 +44,302 @@ class StartupDashboardPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            // ========= OVERVIEW CARD (different layout) =========
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Text(
-                        'Startup Overview',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+        child: Skeletonizer(
+          enabled: _isLoading,
+          ignorePointers: true,
+          effect: const ShimmerEffect(
+            baseColor: Color(0xFF032A2A),
+            highlightColor: Color(0xFF064E4E),
+          ),
+          containersColor: const Color(0xFF032A2A),
+          child: Column(
+            children: [
+              // ========= OVERVIEW CARD =========
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          'Startup Overview',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _accentRed.withOpacity(0.18),
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.error_outline,
-                                color: _accentRed, size: 14),
-                            SizedBox(width: 4),
-                            Text(
-                              'At risk',
-                              style: TextStyle(
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _accentRed.withOpacity(0.18),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.error_outline,
                                 color: _accentRed,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
+                                size: 14,
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 4),
+                              Text(
+                                'At risk',
+                                style: TextStyle(
+                                  color: _accentRed,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      _StatItem(
-                        label: 'MRR',
-                        value: '\$32,450',
-                        sub: '-4.2% vs last month',
-                        valueColor: _accentRed,
-                      ),
-                      _StatItem(
-                        label: 'Burn Rate',
-                        value: '\$24,800 / mo',
-                      ),
-                      _StatItem(
-                        label: 'Runway',
-                        value: '9 months',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Focus on extending runway and improving retention over the next quarter.',
-                    style: TextStyle(
-                      color: Colors.grey[300],
-                      fontSize: 12,
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // ========= MRR TREND (red, going down) =========
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'MRR Trend (Last 4 Months)',
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: const [
-                      _PillChip(label: '1M'),
-                      SizedBox(width: 8),
-                      _PillChip(label: '3M'),
-                      SizedBox(width: 8),
-                      _PillChip(label: '6M', selected: true),
-                      SizedBox(width: 8),
-                      _PillChip(label: '1Y'),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  _buildLineChart(spots: spots, color: _accentRed),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      const Icon(Icons.trending_down,
-                          size: 16, color: _accentRed),
-                      const SizedBox(width: 4),
-                      Text(
-                        'MRR down ~\$4.8k over the last 4 months',
-                        style: TextStyle(
-                          color: Colors.grey[300],
-                          fontSize: 12,
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        _StatItem(
+                          label: 'MRR',
+                          value: '\$32,450',
+                          sub: '-4.2% vs last month',
+                          valueColor: _accentRed,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // ========= Health stats (kept but slightly different place) =========
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: const [
-                  _SectionTitle(title: 'Company Health'),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _StatItem(label: 'Cash in Bank', value: '\$220,000'),
-                      _StatItem(label: 'Monthly Burn', value: '\$24,800'),
-                    ],
-                  ),
-                  SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _StatItem(
-                        label: 'Active Users',
-                        value: '3,980',
-                        sub: '-3.1% this month',
-                        valueColor: _accentRed,
-                      ),
-                      _StatItem(
-                        label: 'Churn',
-                        value: '3.8%',
-                        valueColor: _accentRed,
-                        sub: 'Last 30 days',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // ========= Fundraising card =========
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: [
-                  const _SectionTitle(
-                    title: 'Fundraising',
-                    actionText: 'Pitch deck',
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Target Round',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              '\$500,000 Seed',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Soft-circled: \$120k from 3 investors',
-                              style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
+                        _StatItem(
+                          label: 'Burn Rate',
+                          value: '\$24,800 / mo',
                         ),
+                        _StatItem(
+                          label: 'Runway',
+                          value: '9 months',
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Focus on extending runway and improving retention over the next quarter.',
+                      style: TextStyle(
+                        color: Colors.grey[300],
+                        fontSize: 12,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const _PrimaryButton(
-                    label: 'View Interested Investors',
-                    onTap: _noop,
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // ========= Meetings with investors =========
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
+              // ========= MRR TREND (red, going down) =========
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'MRR Trend (Last 4 Months)',
+                      style: TextStyle(color: Colors.grey, fontSize: 13),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: const [
+                        _PillChip(label: '1M'),
+                        SizedBox(width: 8),
+                        _PillChip(label: '3M'),
+                        SizedBox(width: 8),
+                        _PillChip(label: '6M', selected: true),
+                        SizedBox(width: 8),
+                        _PillChip(label: '1Y'),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Chart or skeleton block
+                    if (_isLoading)
+                      Container(
+                        height: 180,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF032A2A),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      )
+                    else
+                      _buildLineChart(spots: spots, color: _accentRed),
+
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.trending_down,
+                          size: 16,
+                          color: _accentRed,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'MRR down ~\$4.8k over the last 4 months',
+                          style: TextStyle(
+                            color: Colors.grey[300],
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  const _SectionTitle(
-                    title: 'Upcoming Meetings',
-                    actionText: 'See all',
-                  ),
-                  const SizedBox(height: 12),
-                  _meetingRow(
-                    title: 'Green Capital',
-                    subtitle: 'Bridge round options • Tomorrow 3:00 PM',
-                  ),
-                  const Divider(color: Colors.white12),
-                  _meetingRow(
-                    title: 'Syrian Angels',
-                    subtitle: 'Retention strategy • Fri 11:00 AM',
-                  ),
-                ],
+
+              const SizedBox(height: 20),
+
+              // ========= Health stats =========
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: const [
+                    _SectionTitle(title: 'Company Health'),
+                    SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _StatItem(label: 'Cash in Bank', value: '\$220,000'),
+                        _StatItem(label: 'Monthly Burn', value: '\$24,800'),
+                      ],
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _StatItem(
+                          label: 'Active Users',
+                          value: '3,980',
+                          sub: '-3.1% this month',
+                          valueColor: _accentRed,
+                        ),
+                        _StatItem(
+                          label: 'Churn',
+                          value: '3.8%',
+                          valueColor: _accentRed,
+                          sub: 'Last 30 days',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 20),
+
+              // ========= Fundraising card =========
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    const _SectionTitle(
+                      title: 'Fundraising',
+                      actionText: 'Pitch deck',
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Target Round',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                '\$500,000 Seed',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Soft-circled: \$120k from 3 investors',
+                                style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // keep button shape stable even in skeleton mode
+                    Skeleton.keep(
+                      child: _PrimaryButton(
+                        label: _isLoading
+                            ? 'Loading...'
+                            : 'View Interested Investors',
+                        onTap: _isLoading ? _noop : _noop,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // ========= Meetings with investors =========
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    const _SectionTitle(
+                      title: 'Upcoming Meetings',
+                      actionText: 'See all',
+                    ),
+                    const SizedBox(height: 12),
+                    _meetingRow(
+                      title: 'Green Capital',
+                      subtitle: 'Bridge round options • Tomorrow 3:00 PM',
+                    ),
+                    const Divider(color: Colors.white12),
+                    _meetingRow(
+                      title: 'Syrian Angels',
+                      subtitle: 'Retention strategy • Fri 11:00 AM',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -322,8 +376,7 @@ class StartupDashboardPage extends StatelessWidget {
                   final index = value.toInt();
                   return Text(
                     index >= 0 && index < labels.length ? labels[index] : '',
-                    style:
-                        const TextStyle(color: Colors.grey, fontSize: 10),
+                    style: const TextStyle(color: Colors.grey, fontSize: 10),
                   );
                 },
               ),
@@ -511,8 +564,10 @@ class _PrimaryButton extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           label,
-          style:
-              const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
         ),
       ),
     );

@@ -67,9 +67,9 @@ class _MobileLayoutState extends State<MobileLayout> {
     switch (index) {
       case 0:
         //! Home
-        return const MentorDashboardPage();
+        // return const MentorDashboardPage();
         // return const InvestorDashboardPage();
-        // return const StartupDashboardPage();
+        return const StartupDashboardPage();
 
       case 1:
         //! Search

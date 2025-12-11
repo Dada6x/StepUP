@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 const _bgColor = Color(0xFF050816);
 const _cardColor = Color(0xFF042A2B);
@@ -7,8 +8,28 @@ const _accentPurple = Color(0xFFAE8B4D);
 const _accentGreen = Color(0xFF10B981);
 const _accentRed = Color(0xFFEF4444);
 
-class InvestorDashboardPage extends StatelessWidget {
+class InvestorDashboardPage extends StatefulWidget {
   const InvestorDashboardPage({super.key});
+
+  @override
+  State<InvestorDashboardPage> createState() => _InvestorDashboardPageState();
+}
+
+class _InvestorDashboardPageState extends State<InvestorDashboardPage> {
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Fake loading – plug in your real async logic instead
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,171 +42,197 @@ class InvestorDashboardPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            // Portfolio card + chart
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Total Portfolio Value',
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    '\$256,840.00',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
+        child: Skeletonizer(
+          enabled: _isLoading,
+          ignorePointers: true,
+          effect: const ShimmerEffect(
+            baseColor: Color(0xFF032A2A),
+            highlightColor: Color(0xFF064E4E),
+          ),
+          containersColor: const Color(0xFF032A2A),
+          child: Column(
+            children: [
+              // Portfolio card + chart
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Total Portfolio Value',
+                      style: TextStyle(color: Colors.grey, fontSize: 13),
                     ),
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _accentGreen.withOpacity(0.16),
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: const Text(
-                          '+4.23% (24h)',
-                          style: TextStyle(
-                            color: _accentGreen,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
+                    const SizedBox(height: 8),
+                    const Text(
+                      '\$256,840.00',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _accentGreen.withOpacity(0.16),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: const Text(
+                            '+4.23% (24h)',
+                            style: TextStyle(
+                              color: _accentGreen,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Updated just now',
-                        style: TextStyle(color: Colors.grey[400], fontSize: 11),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: const [
-                      _PillChip(label: '24H', selected: true),
-                      SizedBox(width: 8),
-                      _PillChip(label: '1W'),
-                      SizedBox(width: 8),
-                      _PillChip(label: '1M'),
-                      SizedBox(width: 8),
-                      _PillChip(label: '1Y'),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  _buildLineChart(spots: spots, color: _accentGreen),
-                ],
+                        const SizedBox(width: 8),
+                        Text(
+                          'Updated just now',
+                          style: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: 11,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: const [
+                        _PillChip(label: '24H', selected: true),
+                        SizedBox(width: 8),
+                        _PillChip(label: '1W'),
+                        SizedBox(width: 8),
+                        _PillChip(label: '1M'),
+                        SizedBox(width: 8),
+                        _PillChip(label: '1Y'),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // chart skeleton when loading
+                    if (_isLoading)
+                      Container(
+                        height: 180,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF032A2A),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      )
+                    else
+                      _buildLineChart(spots: spots, color: _accentGreen),
+                  ],
+                ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Portfolio stats
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
+              // Portfolio stats
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: const [
+                    _SectionTitle(title: 'Portfolio Stats'),
+                    SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _StatItem(label: 'Invested', value: '\$180,000'),
+                        _StatItem(
+                          label: 'Unrealized P/L',
+                          value: '+\$26,300',
+                          valueColor: _accentGreen,
+                          sub: '+14.6%',
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _StatItem(
+                          label: 'Startups',
+                          value: '12',
+                          sub: 'Active deals',
+                        ),
+                        _StatItem(label: 'Avg. Ticket', value: '\$15,000'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              child: Column(
-                children: const [
-                  _SectionTitle(title: 'Portfolio Stats'),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _StatItem(label: 'Invested', value: '\$180,000'),
-                      _StatItem(
-                        label: 'Unrealized P/L',
-                        value: '+\$26,300',
-                        valueColor: _accentGreen,
-                        sub: '+14.6%',
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _StatItem(
-                        label: 'Startups',
-                        value: '12',
-                        sub: 'Active deals',
-                      ),
-                      _StatItem(label: 'Avg. Ticket', value: '\$15,000'),
-                    ],
-                  ),
-                ],
+
+              const SizedBox(height: 20),
+
+              // Active investments
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    const _SectionTitle(
+                      title: 'Active Investments',
+                      actionText: 'View all',
+                    ),
+                    const SizedBox(height: 12),
+                    _investmentRow(
+                      name: 'EcoSolar',
+                      stage: 'Seed • Energy',
+                      value: '\$40,000',
+                      change: '+8.3%',
+                    ),
+                    const Divider(color: Colors.white12),
+                    _investmentRow(
+                      name: 'MediConnect',
+                      stage: 'Pre-Series A • HealthTech',
+                      value: '\$65,000',
+                      change: '+3.1%',
+                    ),
+                    const Divider(color: Colors.white12),
+                    _investmentRow(
+                      name: 'AgriSense',
+                      stage: 'MVP • AgriTech',
+                      value: '\$22,000',
+                      change: '-1.4%',
+                      isDown: true,
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Active investments
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: _cardColor,
-                borderRadius: BorderRadius.circular(20),
+              // Button – keep shape predictable while loading
+              Skeleton.keep(
+                child: _PrimaryButton(
+                  label: _isLoading ? 'Loading...' : 'Browse New Startups',
+                  onTap: () {
+                    if (_isLoading) return;
+                    // TODO: navigate to search / deal room
+                  },
+                ),
               ),
-              child: Column(
-                children: [
-                  const _SectionTitle(
-                    title: 'Active Investments',
-                    actionText: 'View all',
-                  ),
-                  const SizedBox(height: 12),
-                  _investmentRow(
-                    name: 'EcoSolar',
-                    stage: 'Seed • Energy',
-                    value: '\$40,000',
-                    change: '+8.3%',
-                  ),
-                  const Divider(color: Colors.white12),
-                  _investmentRow(
-                    name: 'MediConnect',
-                    stage: 'Pre-Series A • HealthTech',
-                    value: '\$65,000',
-                    change: '+3.1%',
-                  ),
-                  const Divider(color: Colors.white12),
-                  _investmentRow(
-                    name: 'AgriSense',
-                    stage: 'MVP • AgriTech',
-                    value: '\$22,000',
-                    change: '-1.4%',
-                    isDown: true,
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            _PrimaryButton(
-              label: 'Browse New Startups',
-              onTap: () {
-                // TODO: navigate to search / deal room
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -409,7 +456,10 @@ class _StatItem extends StatelessWidget {
         ),
         if (sub != null) ...[
           const SizedBox(height: 2),
-          Text(sub!, style: TextStyle(color: Colors.grey[500], fontSize: 11)),
+          Text(
+            sub!,
+            style: TextStyle(color: Colors.grey[500], fontSize: 11),
+          ),
         ],
       ],
     );
