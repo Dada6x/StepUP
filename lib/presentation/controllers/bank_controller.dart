@@ -5,8 +5,8 @@ import 'package:kyc_test/presentation/pages/auth/bank_connect_webview.dart';
 class BankController extends GetxController {
   final isLoading = false.obs;
 
-  // For demo we keep it static
-  final String userId = "KYC-TEST-BIG-AMOUNT";
+  //! this should be taken from the investor
+  final String userId = "BIGAMount";
 
   Future<void> startBankFlow() async {
     if (isLoading.value) return;

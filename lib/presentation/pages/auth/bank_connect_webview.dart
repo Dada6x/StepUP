@@ -62,7 +62,10 @@ class _BankConnectWebViewState extends State<BankConnectWebView> {
     //   backgroundColor: Colors.greenAccent,
     // );
 
-    final hasMoney = await SaltEdgeService.checkMinBalance(widget.userId, 5000);
+    final hasMoney = await SaltEdgeService.checkMinBalance(
+      widget.userId,
+      2000,
+    );
 
     if (hasMoney) {
       Get.snackbar(

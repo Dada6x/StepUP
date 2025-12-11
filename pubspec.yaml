@@ -46,6 +46,7 @@ dependencies:
   #! animations
   flutter_animate: ^4.5.2
   webview_flutter: ^4.13.0
+  
   #!icons
   # https://andronasef.github.io/iconify_flutter
   iconify_flutter_plus: ^1.0.4

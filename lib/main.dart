@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kyc_test/kyc_page.dart';
 import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
 import 'package:logger/logger.dart';
 import 'package:kyc_test/core/app/controller/app_controller.dart';
@@ -73,7 +74,7 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.dark,
           themeMode: app.themeMode.value,
           // home: ObsidianSplashPage(),
-          home: BankScreen(),
+          home: KycPage(),
         ),
       ),
     );
