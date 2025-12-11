@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/arcticons.dart';
+import 'package:iconify_flutter_plus/icons/bi.dart';
+import 'package:iconify_flutter_plus/icons/bx.dart';
+import 'package:iconify_flutter_plus/icons/bxs.dart';
+import 'package:iconify_flutter_plus/icons/ci.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:iconify_flutter_plus/icons/uil.dart';
 import 'package:kyc_test/main.dart';
 import 'package:kyc_test/presentation/pages/auth/bank_screen.dart';
 import 'package:kyc_test/presentation/pages/auth/commercial_register_screen.dart';
@@ -116,8 +125,8 @@ class _KycPageState extends State<KycPage> {
                       Row(
                         children: [
                           Container(
-                            height: 40,
-                            width: 40,
+                            height: 45,
+                            width: 45,
                             decoration: BoxDecoration(
                               color: const Color(0xFF0C3C3F),
                               borderRadius: BorderRadius.circular(12),
@@ -169,7 +178,7 @@ class _KycPageState extends State<KycPage> {
 
                       const _StepItem(
                         stepNumber: 1,
-                        icon: Icons.credit_card_outlined,
+                        icon: Iconify(Ci.id_card, color: Colors.white),
                         title: 'Scan your ID document',
                         subtitle:
                             'Use a valid government-issued ID such as a passport, ID card, or driver’s license.',
@@ -177,7 +186,7 @@ class _KycPageState extends State<KycPage> {
                       ),
                       const _StepItem(
                         stepNumber: 2,
-                        icon: Icons.photo_camera_outlined,
+                        icon: Iconify(Mdi.selfie_outline, color: Colors.white),
                         title: 'Take a selfie',
                         subtitle:
                             'Follow the on-screen instructions so Veriff can match your selfie with your document.',
@@ -185,7 +194,7 @@ class _KycPageState extends State<KycPage> {
                       ),
                       const _StepItem(
                         stepNumber: 3,
-                        icon: Icons.shield_outlined,
+                        icon: Iconify(Bx.brain, color: Colors.white),
                         title: 'Automatic verification',
                         subtitle:
                             'Veriff checks your document and selfie. Once done, we’ll continue your onboarding.',
@@ -268,22 +277,26 @@ class _KycPageState extends State<KycPage> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                // Optional: add Veriff logo asset (make sure you have it in assets)
-                                // Place a logo at assets/veriff.png and declare in pubspec.yaml
-                                SizedBox(
-                                  height: 20,
-                                  child: Image.asset(
-                                    'assets/veriff.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
                                 const Text(
-                                  'Powered by Veriff',
+                                  'Powered by ',
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                SizedBox(
+                                  height: 35,
+                                  width: 90,
+                                  child: Padding(
+                                    padding: EdgeInsetsGeometry.only(
+                                      bottom: 10,
+                                    ),
+                                    child: Image.asset(
+                                      'assets/veriff.png',
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -305,7 +318,7 @@ class _KycPageState extends State<KycPage> {
 
 class _StepItem extends StatelessWidget {
   final int stepNumber;
-  final IconData icon;
+  final Widget icon; // <-- was IconData
   final String title;
   final String subtitle;
   final bool isLast;
@@ -323,12 +336,12 @@ class _StepItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Number + line (same visual language as bank flow)
+        // Number + line
         Column(
           children: [
             Container(
-              height: 26,
-              width: 26,
+              height: 30,
+              width: 30,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: const Color(0xFFB08B4F),
@@ -351,7 +364,7 @@ class _StepItem extends StatelessWidget {
               ),
             ),
             if (!isLast) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: 15),
               Container(
                 width: 2,
                 height: 32,
@@ -374,7 +387,8 @@ class _StepItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(icon, color: Colors.white, size: 18),
+                    // use the widget directly
+                    icon,
                     const SizedBox(width: 6),
                     Flexible(
                       child: Text(
