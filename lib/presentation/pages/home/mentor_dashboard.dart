@@ -4,7 +4,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 const _bgColor = Color(0xFF050816);
 const _cardColor = Color(0xFF042A2B);
-const _accentPurple = Color(0xFFAE8B4D);
+const _accentPurple = Color(0xFFF0EAE0);
 const _accentGreen = Color(0xFF10B981);
 
 class MentorDashboardPage extends StatefulWidget {

@@ -296,7 +296,7 @@ class _SearchPageState extends State<SearchPage> {
         hintText: 'Search projects, startups, investors...',
         prefixIcon: const Icon(Icons.search),
         filled: true,
-        fillColor: Theme.of(context).cardColor,
+        fillColor: Color(0xFF032A2A),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -393,6 +393,7 @@ class _SearchPageState extends State<SearchPage> {
                       );
                     },
               child: Card(
+                color: Color(0xFF032A2A),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),

@@ -72,10 +72,10 @@ class _MobileLayoutState extends State<MobileLayout> {
     switch (index) {
       case 0:
         //! Home
-        return DealRoom();
+        // return DealRoom();
         // return const MentorDashboardPage();
       // return const InvestorDashboardPage();
-      // return const StartupDashboardPage();
+      return const StartupDashboardPage();
 
       case 1:
         //! Search
@@ -83,14 +83,15 @@ class _MobileLayoutState extends State<MobileLayout> {
       case 3:
         //! Profile
         return const ProfilePage(
-          name: 'Rita Warttan',
-          profession: 'Startups',
+          name: 'Bilal DaaDaa',
+          profession: 'Startup',
           countryCode: '+963',
           phoneNumber: '980 817 760',
-          email: 'RitaWartan@gmail.com',
+          email: 'BialallDaaDaa@gmail.com',
           avatarUrl:
               // 'https://app.requestly.io/delay/2000/avatars.githubusercontent.com/u/124599?v=4',
-              "https://i.pinimg.com/736x/ef/26/71/ef2671102b52b630f6d2590b9e09678b.jpg",
+              // "https://i.pinimg.com/736x/ef/26/71/ef2671102b52b630f6d2590b9e09678b.jpg",
+              "https://i.pinimg.com/736x/03/eb/d6/03ebd625cc0b9d636256ecc44c0ea324.jpg"
         );
       case 2:
         //! Search

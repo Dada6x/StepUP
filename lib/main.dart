@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.dark,
           themeMode: app.themeMode.value,
           // home: ObsidianSplashPage(),
-          home: MobileLayout(),
+          home: OnBoardingPage(),
         ),
       ),
     );

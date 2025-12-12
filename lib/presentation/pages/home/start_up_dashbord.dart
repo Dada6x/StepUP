@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 const _cardColor = Color(0xFF042A2B);
-const _accentPurple = Color(0xFFAE8B4D);
+const _accentPurple = Color(0xFFF0EAE0);
 const _accentGreen = Color(0xFF10B981);
 const _accentRed = Color(0xFFEF4444);
 
