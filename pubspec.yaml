@@ -71,6 +71,8 @@ dependencies:
   veriff_flutter: ^5.4.0
   country_picker: ^2.0.26
   crypto: ^3.0.0
+  camera: ^0.11.0
+  permission_handler: ^11.3.1
 
 
   flutter:

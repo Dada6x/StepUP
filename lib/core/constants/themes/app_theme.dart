@@ -6,7 +6,7 @@ class AppTheme {
   // BRAND COLORS
   static const Color primaryDark = Color(0xFF042A2B);
   static const Color primaryDarker = Color(0xFF021416);
-  static const Color gold = Color(0xFFFE955C);
+  static const Color gold = Color(0xFFB08B4F);
   static const Color surfaceDark = Color(0xFF0A0F10); // nice glossy dark
   static const Color cardDark = Color(0xFF0D1A1B); // subtle teal tint
 

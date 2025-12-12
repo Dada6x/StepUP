@@ -243,7 +243,7 @@ class _SearchPageState extends State<SearchPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Colors.transparent,
         body: Skeletonizer(
           effect: const ShimmerEffect(
             baseColor: Color(0xFF032A2A),

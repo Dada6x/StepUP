@@ -72,13 +72,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: const Color(0xFFF0EAE0),
                             width: 2,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.35),
-                              blurRadius: 14,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
                         ),
                         child: CircleAvatar(
                           radius: 55,

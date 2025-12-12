@@ -6,7 +6,7 @@ class BankController extends GetxController {
   final isLoading = false.obs;
 
   //! this should be taken from the investor
-  final String userId = "DDDDDDDDD";
+  final String userId = "Ritta Wartaan";
 
   Future<void> startBankFlow() async {
     if (isLoading.value) return;

@@ -59,7 +59,9 @@ class _MobileAppBarState extends State<MobileAppBar> {
                     child: ClipOval(
                       child: FancyShimmerImage(
                         imageUrl:
-                            "https://app.requestly.io/delay/2000/avatars.githubusercontent.com/u/124599?v=4",
+                            // "https://app.requestly.io/delay/2000/avatars.githubusercontent.com/u/124599?v=4",
+                            // "https://i.pinimg.com/736x/03/eb/d6/03ebd625cc0b9d636256ecc44c0ea324.jpg",
+                            "https://i.pinimg.com/736x/ef/26/71/ef2671102b52b630f6d2590b9e09678b.jpg"
                       ),
                     ),
                   ),
@@ -76,7 +78,7 @@ class _MobileAppBarState extends State<MobileAppBar> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Hello, Yahiea",
+                    "Hello, Rita",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

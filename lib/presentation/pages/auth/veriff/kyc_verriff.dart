@@ -251,7 +251,7 @@ class _KycPageState extends State<KycPage> {
                               : const Text(
                                   'Start KYC verification',
                                   style: TextStyle(
-                                          color: Color(0xFF042A2B),
+                                    color: Color(0xFF042A2B),
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),

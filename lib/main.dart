@@ -28,7 +28,7 @@ var logger = Logger(
   ),
 );
 
-String LaptopIp = "192.168.43.12";
+String LaptopIp = "192.168.43.51";
 
 bool isMobile(BuildContext context) => context.isPhone;
 bool isDesktop(BuildContext context) => context.isLandscape;

@@ -243,10 +243,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                           ],
                                           decoration: const InputDecoration(
                                             enabledBorder: OutlineInputBorder(
-                                              
                                               borderSide: BorderSide.none,
                                             ),
-                                            
+
                                             hintText: 'Phone number',
                                             border: InputBorder.none,
                                             isDense: false,

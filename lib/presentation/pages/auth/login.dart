@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:kyc_test/presentation/pages/auth/forget_password.dart';
 import 'package:kyc_test/presentation/pages/auth/role.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 

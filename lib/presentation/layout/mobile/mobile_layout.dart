@@ -5,6 +5,7 @@ import 'package:kyc_test/core/constants/themes/app_theme.dart';
 import 'package:kyc_test/main.dart';
 import 'package:kyc_test/presentation/layout/mobile/drawer.dart';
 import 'package:kyc_test/presentation/layout/mobile/widgets/app_bar.dart';
+import 'package:kyc_test/presentation/pages/home/deals_room.dart';
 import 'package:kyc_test/presentation/pages/home/investor_dashBoard.dart';
 import 'package:kyc_test/presentation/pages/home/mentor_dashboard.dart';
 import 'package:kyc_test/presentation/pages/home/start_up_dashbord.dart';
@@ -41,7 +42,11 @@ class _MobileLayoutState extends State<MobileLayout> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Iconify(Mdi.view_dashboard, color: Color(0xFFF0EAE0), size: 25),
+            icon: Iconify(
+              Mdi.view_dashboard,
+              color: Color(0xFFF0EAE0),
+              size: 25,
+            ),
             label: "DashBoard",
           ),
           BottomNavigationBarItem(
@@ -67,9 +72,10 @@ class _MobileLayoutState extends State<MobileLayout> {
     switch (index) {
       case 0:
         //! Home
+        return DealRoom();
         // return const MentorDashboardPage();
-        // return const InvestorDashboardPage();
-        return const StartupDashboardPage();
+      // return const InvestorDashboardPage();
+      // return const StartupDashboardPage();
 
       case 1:
         //! Search
@@ -77,13 +83,14 @@ class _MobileLayoutState extends State<MobileLayout> {
       case 3:
         //! Profile
         return const ProfilePage(
-          name: 'Yahiea Dada',
-          profession: 'Investor',
+          name: 'Rita Warttan',
+          profession: 'Startups',
           countryCode: '+963',
           phoneNumber: '980 817 760',
-          email: 'yahieadada@gmail.com',
+          email: 'RitaWartan@gmail.com',
           avatarUrl:
-              'https://app.requestly.io/delay/2000/avatars.githubusercontent.com/u/124599?v=4',
+              // 'https://app.requestly.io/delay/2000/avatars.githubusercontent.com/u/124599?v=4',
+              "https://i.pinimg.com/736x/ef/26/71/ef2671102b52b630f6d2590b9e09678b.jpg",
         );
       case 2:
         //! Search
