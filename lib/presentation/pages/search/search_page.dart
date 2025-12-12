@@ -92,11 +92,11 @@ class _SearchPageState extends State<SearchPage> {
       teamSize: '3–5',
       shortBio:
           'Building affordable solar kits and pay-as-you-go energy access for remote communities.',
-      logoUrl: 'https://i.pravatar.cc/150?img=5',
+      logoUrl: 'https://i.pinimg.com/1200x/7f/67/cb/7f67cbbf2043c1d3f725c90e8fffe707.jpg',
     ),
     Startup(
       id: 's2',
-      name: 'MediConnect',
+      name: 'hyperganic',
       focusArea: 'Digital Health',
       sector: 'HealthTech',
       stage: 'Pre-Series A',
@@ -104,11 +104,11 @@ class _SearchPageState extends State<SearchPage> {
       teamSize: '5–10',
       shortBio:
           'Connecting patients with verified doctors via secure video consultations & clinic tools.',
-      logoUrl: 'https://i.pravatar.cc/150?img=6',
+      logoUrl: 'https://i.pinimg.com/736x/5c/df/02/5cdf021137a473503fae063061345865.jpg',
     ),
     Startup(
       id: 's3',
-      name: 'AgriSense',
+      name: 'SpiderSense',
       focusArea: 'Smart Farming',
       sector: 'AgriTech',
       stage: 'MVP',
@@ -116,21 +116,21 @@ class _SearchPageState extends State<SearchPage> {
       teamSize: '3–5',
       shortBio:
           'IoT sensors and analytics helping farmers save water and increase yield.',
-      logoUrl: 'https://i.pravatar.cc/150?img=7',
+      logoUrl: 'https://i.pinimg.com/736x/e0/fb/e3/e0fbe38105f74a314707bf735c5bb948.jpg',
     ),
   ];
 
   final List<Investor> _investors = [
     Investor(
       id: 'i1',
-      name: 'Green Capital',
+      name: 'Blue Capital',
       thesis: 'Climate & Energy, long-term impact plays.',
       ticketSize: '\$50k–\$200k',
       preferredStages: 'Seed, Series A',
       preferredSectors: 'Clean energy, sustainability, climate tech',
       isLead: true,
       dealsCount: 8,
-      logoUrl: 'https://i.pravatar.cc/150?img=8',
+      logoUrl: 'https://i.pinimg.com/1200x/d3/93/d5/d393d54a2d63e3930ed7ff184fbd8c13.jpg',
     ),
     Investor(
       id: 'i2',
@@ -141,7 +141,7 @@ class _SearchPageState extends State<SearchPage> {
       preferredSectors: 'SaaS, marketplaces, fintech, edtech',
       isLead: false,
       dealsCount: 15,
-      logoUrl: 'https://i.pravatar.cc/150?img=9',
+      logoUrl: 'https://i.pinimg.com/1200x/b4/3a/26/b43a26cbcf0d1dc66c09833506c91460.jpg',
     ),
     Investor(
       id: 'i3',
@@ -152,7 +152,7 @@ class _SearchPageState extends State<SearchPage> {
       preferredSectors: 'EdTech, HealthTech, Future of work',
       isLead: false,
       dealsCount: 5,
-      logoUrl: 'https://i.pravatar.cc/150?img=10',
+      logoUrl: 'https://i.pinimg.com/1200x/d3/93/d5/d393d54a2d63e3930ed7ff184fbd8c13.jpg',
     ),
   ];
 
@@ -245,6 +245,11 @@ class _SearchPageState extends State<SearchPage> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Skeletonizer(
+          effect: const ShimmerEffect(
+            baseColor: Color(0xFF032A2A),
+            highlightColor: Color(0xFF064E4E),
+          ),
+          containersColor: const Color(0xFF032A2A),
           enabled: _isLoading,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -281,7 +286,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildSearchBar(BuildContext context) {
     return TextField(
       controller: _searchController,
-      enabled: !_isLoading, // optional: lock while loading
+      enabled: !_isLoading, 
       onChanged: (_) {
         if (!_isLoading) {
           setState(() {});
@@ -414,9 +419,7 @@ class _SearchPageState extends State<SearchPage> {
                               project.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
+                              style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 4),
@@ -424,9 +427,7 @@ class _SearchPageState extends State<SearchPage> {
                               '${project.sector} • ${project.stage}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
+                              style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(color: Colors.grey[600]),
                             ),
                             const SizedBox(height: 4),
@@ -527,10 +528,13 @@ class _SearchPageState extends State<SearchPage> {
             itemBuilder: (context, index) {
               final person = people[index];
               final bool isInvestor = person.type == _PersonType.investor;
-              final Color badgeColor = isInvestor ? Colors.green : Colors.blueAccent;
+              final Color badgeColor = isInvestor
+                  ? Colors.green
+                  : Colors.blueAccent;
               final String badgeText = isInvestor ? 'Investor' : 'Startup';
-              final IconData badgeIcon =
-                  isInvestor ? Icons.attach_money : Icons.rocket_launch;
+              final IconData badgeIcon = isInvestor
+                  ? Icons.attach_money
+                  : Icons.rocket_launch;
 
               return GestureDetector(
                 onTap: _isLoading
@@ -606,8 +610,8 @@ class _SearchPageState extends State<SearchPage> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -616,9 +620,9 @@ class _SearchPageState extends State<SearchPage> {
                         badgeText,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: badgeColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          color: badgeColor,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -772,18 +776,16 @@ class ProjectDetailsPage extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             project.name,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 4),
           Text(
             '${project.sector} • ${project.stage}',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: Colors.grey[700]),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[700]),
           ),
           const SizedBox(height: 16),
 
@@ -836,10 +838,9 @@ class ProjectDetailsPage extends StatelessWidget {
           _detailSectionTitle(context, 'Startup'),
           Text(
             project.startupName,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
 
           const SizedBox(height: 24),
@@ -860,10 +861,9 @@ class ProjectDetailsPage extends StatelessWidget {
   Widget _detailSectionTitle(BuildContext context, String text) {
     return Text(
       text,
-      style: Theme.of(context)
-          .textTheme
-          .titleMedium
-          ?.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(
+        context,
+      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }
@@ -901,18 +901,15 @@ class StartupDetailsPage extends StatelessWidget {
                   children: [
                     Text(
                       startup.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
+                      style: Theme.of(context).textTheme.headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Startup • ${startup.stage}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: Colors.blueAccent),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.blueAccent,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -950,10 +947,9 @@ class StartupDetailsPage extends StatelessWidget {
   Widget _detailTitle(BuildContext context, String text) {
     return Text(
       text,
-      style: Theme.of(context)
-          .textTheme
-          .titleMedium
-          ?.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(
+        context,
+      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }
@@ -993,9 +989,7 @@ class InvestorDetailsPage extends StatelessWidget {
                   children: [
                     Text(
                       investor.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
+                      style: Theme.of(context).textTheme.headlineSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
@@ -1029,8 +1023,7 @@ class InvestorDetailsPage extends StatelessWidget {
 
           const SizedBox(height: 24),
           _detailTitle(context, 'Investment Thesis'),
-          Text(investor.thesis,
-              style: Theme.of(context).textTheme.bodyMedium),
+          Text(investor.thesis, style: Theme.of(context).textTheme.bodyMedium),
 
           const SizedBox(height: 16),
           _detailTitle(context, 'Ticket Size'),
@@ -1060,10 +1053,9 @@ class InvestorDetailsPage extends StatelessWidget {
   Widget _detailTitle(BuildContext context, String text) {
     return Text(
       text,
-      style: Theme.of(context)
-          .textTheme
-          .titleMedium
-          ?.copyWith(fontWeight: FontWeight.w600),
+      style: Theme.of(
+        context,
+      ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 }

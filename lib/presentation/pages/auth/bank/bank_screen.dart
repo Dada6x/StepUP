@@ -148,7 +148,7 @@ class BankScreen extends StatelessWidget {
                                       Text(
                                         'Connect Bank with Salt Edge',
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Color(0xFF042A2B),
                                           fontSize: 17, // was 15
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -245,7 +245,7 @@ class _StepItem extends StatelessWidget {
               child: Text(
                 stepNumber.toString(),
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 15, // was 13
                   fontWeight: FontWeight.w600,
                 ),

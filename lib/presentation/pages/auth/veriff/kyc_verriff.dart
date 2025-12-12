@@ -251,7 +251,7 @@ class _KycPageState extends State<KycPage> {
                               : const Text(
                                   'Start KYC verification',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                          color: Color(0xFF042A2B),
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -353,7 +353,7 @@ class _StepItem extends StatelessWidget {
               child: Text(
                 stepNumber.toString(),
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),

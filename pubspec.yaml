@@ -38,6 +38,7 @@ dependencies:
   pin_code_fields: ^8.0.1
   #! UI Responsive
   sized_context: ^1.0.0+4
+  
   flutter_screenutil: ^5.9.3
   fl_chart: ^0.68.0 
   #! images and widgets
@@ -68,6 +69,7 @@ dependencies:
   flutter_native_splash: ^2.4.4
   # android_dynamic_icon: ^2.0.0
   veriff_flutter: ^5.4.0
+  country_picker: ^2.0.26
   crypto: ^3.0.0
 
 
@@ -88,7 +90,10 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
+
+
 flutter:
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -121,3 +126,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_native_splash:
+  color: "#001D21"
+  image: assets/stepup.png
+
+  android_12:
+    color: "#001D21"
+    image: assets/stepup.png

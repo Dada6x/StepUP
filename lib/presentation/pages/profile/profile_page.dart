@@ -55,6 +55,11 @@ class _ProfilePageState extends State<ProfilePage> {
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: size.width * 0.88),
                 child: Skeletonizer(
+                  effect: const ShimmerEffect(
+                    baseColor: Color(0xFF032A2A),
+                    highlightColor: Color(0xFF064E4E),
+                  ),
+                  containersColor: const Color(0xFF032A2A),
                   enabled: _isLoading,
                   child: Column(
                     children: [

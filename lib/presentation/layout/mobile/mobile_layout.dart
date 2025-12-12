@@ -31,7 +31,7 @@ class _MobileLayoutState extends State<MobileLayout> {
       appBar: MobileAppBar(),
       drawer: const MobileDrawer(),
       bottomNavigationBar: BottomNavigationBar(
-        fixedColor: AppTheme.gold,
+        fixedColor: Color(0xFFF0EAE0),
         unselectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -41,19 +41,19 @@ class _MobileLayoutState extends State<MobileLayout> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Iconify(Mdi.view_dashboard, color: AppTheme.gold, size: 25),
+            icon: Iconify(Mdi.view_dashboard, color: Color(0xFFF0EAE0), size: 25),
             label: "DashBoard",
           ),
           BottomNavigationBarItem(
-            icon: Iconify(Mdi.message, color: AppTheme.gold, size: 25),
+            icon: Iconify(Mdi.message, color: Color(0xFFF0EAE0), size: 25),
             label: "Messages",
           ),
           BottomNavigationBarItem(
-            icon: Iconify(Mdi.search, color: AppTheme.gold, size: 30),
+            icon: Iconify(Mdi.search, color: Color(0xFFF0EAE0), size: 30),
             label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: Iconify(Mdi.face_profile, color: AppTheme.gold, size: 25),
+            icon: Iconify(Mdi.face_profile, color: Color(0xFFF0EAE0), size: 25),
             label: "Profile",
           ),
         ],

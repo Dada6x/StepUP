@@ -64,7 +64,11 @@ class _MessagesState extends State<Messages> {
       ),
       backgroundColor: Colors.transparent,
       body: Skeletonizer(
-        containersColor: Color(0xFF393939),
+        effect: const ShimmerEffect(
+            baseColor: Color(0xFF032A2A),
+            highlightColor: Color(0xFF064E4E),
+          ),
+          containersColor: const Color(0xFF032A2A),
         enabled: _isLoading,
         child: ListView.separated(
           itemCount: _chatUsers.length,

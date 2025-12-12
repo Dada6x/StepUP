@@ -3,6 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
+import 'package:kyc_test/presentation/pages/auth/bank/bank_screen.dart';
+import 'package:kyc_test/presentation/pages/auth/veriff/kyc_verriff.dart';
+// import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
+import 'package:kyc_test/presentation/pages/introduction_screens/intro_screen.dart';
 import 'package:logger/logger.dart';
 import 'package:kyc_test/core/app/controller/app_controller.dart';
 import 'package:kyc_test/core/constants/themes/app_theme.dart';
@@ -24,7 +28,7 @@ var logger = Logger(
   ),
 );
 
-String LaptopIp = "192.168.0.120";
+String LaptopIp = "192.168.43.12";
 
 bool isMobile(BuildContext context) => context.isPhone;
 bool isDesktop(BuildContext context) => context.isLandscape;
@@ -68,7 +72,7 @@ class MyApp extends StatelessWidget {
       builder: (_, __) => Obx(
         () => GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Investment App',
+          title: 'Step Up ',
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: app.themeMode.value,

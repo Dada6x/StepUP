@@ -5,9 +5,25 @@ import 'package:get/route_manager.dart';
 import 'package:kyc_test/presentation/layout/mobile/mobile_layout.dart';
 import 'package:kyc_test/presentation/pages/auth/forget_password.dart';
 import 'package:kyc_test/presentation/pages/auth/role.dart';
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +61,6 @@ class LoginScreen extends StatelessWidget {
 
                     const SizedBox(height: 40),
 
-                    // === FORM WITH SAME INPUT STYLE AS BEFORE ===
                     Theme(
                       data: Theme.of(context).copyWith(
                         inputDecorationTheme: InputDecorationTheme(
@@ -70,16 +85,41 @@ class LoginScreen extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          const TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(hintText: 'Email'),
+                          /// EMAIL
+                          TextField(
+                            controller: emailController,
+                            style: const TextStyle(color: Colors.white),
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                              hintText: 'Email',
+                            ),
                           ),
+
                           const SizedBox(height: 18),
-                          const TextField(
-                            style: TextStyle(color: Colors.white),
-                            obscureText: true,
-                            decoration: InputDecoration(hintText: 'Password'),
+
+                          /// PASSWORD WITH EYE ICON
+                          TextField(
+                            controller: passwordController,
+                            style: const TextStyle(color: Colors.white),
+                            obscureText: _obscurePassword,
+                            decoration: InputDecoration(
+                              hintText: 'Password',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  color: Colors.white70,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                              ),
+                            ),
                           ),
+
                           const SizedBox(height: 24),
 
                           Row(
@@ -93,6 +133,10 @@ class LoginScreen extends StatelessWidget {
                               const SizedBox(width: 12),
                               TextButton.icon(
                                 onPressed: () {
+                                  /// Example usage
+                                  print(emailController.text);
+                                  print(passwordController.text);
+
                                   Get.offAll(() => MobileLayout());
                                 },
                                 icon: const SizedBox.shrink(),
@@ -144,7 +188,7 @@ class LoginScreen extends StatelessWidget {
 
                     SizedBox(height: size.height * 0.12),
 
-                    // === SOCIAL AREA + GOOGLE BUTTON (SAME DESIGN) ===
+                    // SOCIAL AREA
                     Row(
                       children: [
                         Expanded(
@@ -182,10 +226,9 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {},
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(
-                                padding: EdgeInsetsGeometry.only(top: 8),
+                                padding: const EdgeInsets.only(top: 8),
                                 child: SvgPicture.asset(
                                   "assets/Google.svg",
                                   width: 35,
@@ -207,7 +250,7 @@ class LoginScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 115),
-                    // === BOTTOM TEXT ===
+
                     Align(
                       child: GestureDetector(
                         onTap: () {
